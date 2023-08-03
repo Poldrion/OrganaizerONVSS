@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="800.0" style="-fx-background-color: secondary-light;" stylesheets="@../../style/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="organizer.views.controller.popups.BusinessPlanEdit">
+   <children>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="dialog-icon" stylesheets="@../../style/application.css">
+         <children>
+            <SVGPath content="M30.5 0h-12c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l14.879-14.879c0.583-0.583 1.061-1.736 1.061-2.561v-12c0-0.825-0.675-1.5-1.5-1.5zM23 12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z" scaleX="3.0" scaleY="3.0" />
+         </children>
+      </VBox>
+      <VBox HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="title" styleClass="dialog-title" text="Label" wrapText="true" />
+            <Label fx:id="message" />
+            <HBox styleClass="sp-10">
+               <children>
+                  <VBox styleClass="dialog-input-box">
+                     <children>
+                        <Label text="ID" />
+                        <TextField fx:id="id" prefWidth="300.0" promptText="Введите ID" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="dialog-input-box">
+                     <children>
+                        <Label text="Первый год версии БП" />
+                        <TextField fx:id="firstYear" prefWidth="300.0" promptText="Введите первый год версии БП" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox layoutX="30.0" layoutY="166.0" spacing="2.0" styleClass="dialog-input-box">
+               <children>
+                  <HBox styleClass="sp-5">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="100.0" text="Кол-во" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="150.0" text="Стоимость" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="100.0" text="Кол-во" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="150.0" text="Стоимость" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="100.0" text="Кол-во" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="150.0" text="Стоимость" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="100.0" text="Кол-во" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="150.0" text="Стоимость" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="100.0" text="Кол-во" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="150.0" text="Стоимость" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="УЭЦН полнокомплектные импортные" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category1" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="УЭЦН полнокомплектные отечественные" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount1" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost1" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount1" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost1" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount1" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost1" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount1" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost1" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount1" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost1" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category2" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="АКИВ" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount2" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost2" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount2" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost2" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount2" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost2" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount2" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost2" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount2" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost2" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="78.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category3" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="ПЭД" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount3" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost3" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount3" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost3" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount3" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost3" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount3" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost3" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount3" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost3" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="107.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category4" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Газосепараторы и диспергаторы" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount4" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost4" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount4" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost4" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount4" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost4" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount4" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost4" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount4" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost4" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="136.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category5" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Полнокомплектные УЭВН" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount5" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost5" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount5" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost5" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount5" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost5" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount5" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost5" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount5" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost5" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="165.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category6" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Система погружной телеметрии (ТМС)" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount6" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost6" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount6" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost6" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount6" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost6" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount6" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost6" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount6" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost6" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="194.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category7" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Трансформатор ТМПН" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount7" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost7" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount7" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost7" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount7" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost7" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount7" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost7" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount7" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost7" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="223.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category8" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="СУ с ЧРП" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount8" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost8" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount8" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost8" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount8" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost8" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount8" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost8" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount8" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost8" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="252.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category9" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Станция управления" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount9" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost9" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount9" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost9" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount9" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost9" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount9" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost9" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount9" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost9" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="281.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category10" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Кабель погружной для УЭЦН до 160 градусов" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount10" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost10" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount10" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost10" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount10" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost10" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount10" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost10" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount10" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost10" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="310.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category11" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Кабель погружной для УЭЦН до 230 градусов" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount11" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost11" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount11" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost11" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount11" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost11" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount11" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost11" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount11" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost11" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="339.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category12" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Термоизолированная НКТ" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount12" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost12" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount12" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost12" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount12" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost12" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount12" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost12" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount12" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost12" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="368.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category13" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Стеклопластиковая НКТ" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount13" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost13" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount13" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost13" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount13" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost13" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount13" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost13" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount13" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost13" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="397.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category14" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Фонтанная арматура (в т.ч. АФК с КГ)" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount14" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost14" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount14" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost14" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount14" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost14" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount14" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost14" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount14" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost14" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="426.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category15" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Насосно-компрессорные трубы" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount15" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost15" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount15" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost15" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount15" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost15" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount15" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost15" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount15" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost15" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="455.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category16" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Штанговые насосы" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount16" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost16" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount16" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost16" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount16" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost16" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount16" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost16" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount16" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost16" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="484.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category17" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Насосные штанги" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount17" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost17" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount17" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost17" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount17" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost17" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount17" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost17" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount17" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost17" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="513.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category18" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Защита ЭЦН от мех.примесей ШУМ, ЖНШ, МВФ" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount18" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost18" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount18" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost18" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount18" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost18" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount18" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost18" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount18" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost18" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="542.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category19" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="УДХ для ингибирования скважин" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount19" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost19" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount19" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost19" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount19" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost19" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount19" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost19" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount19" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost19" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="571.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category20" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Протекторы для защиты кабеля" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount20" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost20" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount20" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost20" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount20" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost20" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount20" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost20" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount20" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost20" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="600.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category21" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Протектолайзеры" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount21" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost21" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount21" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost21" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount21" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost21" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount21" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost21" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount21" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost21" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="629.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category22" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Пакера и компановки ОРЗ" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount22" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost22" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount22" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost22" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount22" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost22" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount22" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost22" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount22" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost22" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="658.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category23" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Новая техника" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount23" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost23" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount23" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost23" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount23" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost23" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount23" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost23" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount23" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost23" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="687.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category24" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Оборудование для ОРЭ" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount24" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost24" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount24" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost24" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount24" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost24" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount24" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost24" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount24" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost24" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="716.0" styleClass="sp-5">
+                     <children>
+                        <Label fx:id="category25" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Прочее" wrapText="true" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="firstYearCount25" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Первый год" />
+                        <TextField fx:id="firstYearCost25" maxHeight="1.7976931348623157E308" promptText="Первый год" />
+                        <TextField fx:id="secondYearCount25" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Второй год" />
+                        <TextField fx:id="secondYearCost25" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Второй год" />
+                        <TextField fx:id="thirdYearCount25" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Третий год" />
+                        <TextField fx:id="thirdYearCost25" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Третий год" />
+                        <TextField fx:id="forthYearCount25" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Четвертый год" />
+                        <TextField fx:id="forthYearCost25" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Четвертый год" />
+                        <TextField fx:id="fifthYearCount25" maxHeight="1.7976931348623157E308" prefWidth="100.0" promptText="Пятый год" />
+                        <TextField fx:id="fifthYearCost25" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Пятый год" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#save" styleClass="width-120" text="Сохранить" />
+                  <Button mnemonicParsing="false" onAction="#close" styleClass="width-120" text="Закрыть" />
+               </children>
+               <styleClass>
+                  <String fx:value="dialog-button-box" />
+                  <String fx:value="sp-10" />
+               </styleClass>
+            </HBox>
+         </children>
+         <styleClass>
+            <String fx:value="dialog-body" />
+            <String fx:value="sp-10" />
+         </styleClass>
+      </VBox>
+   </children>
+</HBox>

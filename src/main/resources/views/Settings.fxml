@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="content-view" stylesheets="@../style/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="organizer.views.controller.SettingsController">
+   <children>
+      <HBox stylesheets="@../style/application.css">
+         <children>
+            <HBox styleClass="up-button-bar-container" />
+         </children>
+         <styleClass>
+            <String fx:value="up-button-bar-container" />
+            <String fx:value="padding-all-5" />
+         </styleClass>
+      </HBox>
+      <HBox>
+         <children>
+            <HBox HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label text="Настройки периодов">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox>
+                           <children>
+                              <HBox styleClass="sp-10">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" text="Первый год" />
+                                    <TextField fx:id="firstYear" maxHeight="1.7976931348623157E308" />
+                                 </children>
+                              </HBox>
+                              <HBox styleClass="sp-10">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" text="Кол-во лет" />
+                                    <TextField fx:id="countYears" maxHeight="1.7976931348623157E308" />
+                                 </children>
+                              </HBox>
+                              <Button maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onAction="#saveProperties" prefHeight="32.0">
+                                 <graphic>
+                                    <SVGPath content="M28 0h-28v32h32v-28l-4-4zM16 4h4v8h-4v-8zM28 28h-24v-24h2v10h18v-10h2.343l1.657 1.657v22.343z" scaleX="0.75" scaleY="0.75" />
+                                 </graphic>
+                              </Button>
+                              <Label fx:id="propertiesMessage" maxHeight="1.7976931348623157E308">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <styleClass>
+                              <String fx:value="sp-10" />
+                              <String fx:value="padding-all-5" />
+                           </styleClass>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <styleClass>
+                  <String fx:value="sp-10" />
+                  <String fx:value="padding-all-5" />
+               </styleClass>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Настройки единиц измерения">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <HBox>
+                     <children>
+                        <HBox styleClass="sp-10">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#openUnits" styleClass="width-240" text="Единицы измерения" />
+                           </children>
+                        </HBox>
+                        <HBox styleClass="sp-10">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" text="ID единицы измерения для удаления" />
+                              <TextField fx:id="idUnits" prefWidth="60.0" promptText="ID" />
+                              <Button mnemonicParsing="false" onAction="#deleteUnits" styleClass="width-120" text="Удалить" />
+                              <Label fx:id="unitMessage" maxHeight="1.7976931348623157E308">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="sp-10" />
+                        <String fx:value="padding-all-5" />
+                     </styleClass>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <styleClass>
+            <String fx:value="sp-10" />
+            <String fx:value="padding-all-5" />
+         </styleClass>
+      </HBox>
+      <HBox>
+         <children>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Настройки актуальных версий Бизнес-плана по годам">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <HBox>
+                     <children>
+                        <VBox>
+                           <children>
+                              <HBox styleClass="sp-10">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" text="Год" />
+                                    <ComboBox fx:id="year" maxHeight="1.7976931348623157E308" prefWidth="110.0" promptText="Выбрать год" />
+                                    <Label maxHeight="1.7976931348623157E308" text="Версия бизнес-плана" />
+                                    <ComboBox fx:id="bp" layoutX="40.0" layoutY="10.0" maxHeight="1.7976931348623157E308" prefWidth="200.0" promptText="Выбрать версию" />
+                                    <Label layoutX="40.0" layoutY="10.0" maxHeight="1.7976931348623157E308" text="Актуальная таблица кол-ва" />
+                                    <ComboBox fx:id="count" layoutX="328.0" layoutY="10.0" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Выбрать таблицу" />
+                                    <Label layoutX="168.0" layoutY="10.0" maxHeight="1.7976931348623157E308" text="Актуальная таблица ст-ти" />
+                                    <ComboBox fx:id="cost" layoutX="648.0" layoutY="10.0" maxHeight="1.7976931348623157E308" prefWidth="150.0" promptText="Выбрать таблицу" />
+                                    <VBox styleClass="small-button-setting">
+                                       <children>
+                                          <Button maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onAction="#saveBP" prefHeight="32.0">
+                                             <graphic>
+                                                <SVGPath content="M28 0h-28v32h32v-28l-4-4zM16 4h4v8h-4v-8zM28 28h-24v-24h2v10h18v-10h2.343l1.657 1.657v22.343z" scaleX="0.75" scaleY="0.75" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <Label fx:id="comparisonMessage">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox styleClass="sp-10">
+                                 <children>
+                                    <Label prefWidth="150.0" text="Текущее сопоставление:" />
+                                    <Label prefWidth="30.0" text="ID:" />
+                                    <Label fx:id="comparisonID" prefWidth="100.0" />
+                                    <Label prefWidth="100.0" text="Версия БП:" />
+                                    <Label fx:id="comparisonBP" prefWidth="200.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="sp-10" />
+                        <String fx:value="padding-all-5" />
+                     </styleClass>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <styleClass>
+            <String fx:value="sp-10" />
+            <String fx:value="padding-all-5" />
+         </styleClass>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="376.0">
+         <children>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label text="Резервное копирование БД">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onAction="#backupDB" prefHeight="32.0">
+                           <graphic>
+                              <SVGPath content="M28 0h-28v32h32v-28l-4-4zM16 4h4v8h-4v-8zM28 28h-24v-24h2v10h18v-10h2.343l1.657 1.657v22.343z" scaleX="0.75" scaleY="0.75" />
+                           </graphic>
+                        </Button>
+                     </children>
+                     <styleClass>
+                        <String fx:value="sp-10" />
+                        <String fx:value="padding-all-5" />
+                     </styleClass>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <styleClass>
+            <String fx:value="sp-10" />
+            <String fx:value="padding-all-5" />
+         </styleClass>
+      </HBox>
+   </children>
+</VBox>

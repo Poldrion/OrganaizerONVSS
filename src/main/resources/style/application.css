@@ -1,0 +1,481 @@
+* {
+    primary: #E38B29;
+    primary-light: #F1A661;
+    secondary: #FFD8A9;
+    secondary-light: #FDEEDC;
+    alternate-text: #AD2B03;
+}
+
+/*-----------------------------------------
+Customize date-picker
+-------------------------------------------*/
+/*-----------------------------------------
+Customize the right button background color
+-------------------------------------------*/
+.date-picker .arrow-button {
+    -fx-background-color: primary;
+    -fx-background-radius: 0;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: primary-light;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: secondary-light;
+}
+
+
+/*-----------------------------------------
+Customize left and right arrow
+-------------------------------------------*/
+.date-picker-popup .spinner .button .left-arrow, .date-picker-popup .spinner .button .right-arrow {
+    -fx-background-color: secondary-light;
+}
+
+.login-view {
+    -fx-pref-width: 480px;
+    -fx-background-color: secondary;
+}
+
+.login-title {
+    -fx-alignment: center-left;
+    -fx-padding: 16px;
+    -fx-background-color: primary;
+}
+
+.login-title .header {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+
+/*-----------------------------------------
+Customize popup content
+-------------------------------------------*/
+.date-picker .cell {
+    -fx-background-color: secondary-light;
+}
+
+.date-picker .cell:hover {
+    -fx-background-color: primary;
+}
+
+.date-picker .cell:focused {
+    -fx-background-color: primary;
+}
+/*-----------------------------------------
+Customize the selected cell
+-------------------------------------------*/
+.date-picker .selected {
+    -fx-background-color: primary;
+    -fx-text-fill: secondary-light;
+}
+
+.date-picker .selected:focused {
+    -fx-background-color: primary;
+    -fx-text-fill: secondary-light;
+}
+
+.date-picker-popup {
+    -fx-border-color: transparent;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: primary;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: secondary-light;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: secondary;
+}
+
+.date-picker-popup .button {
+    -fx-background-color: primary;
+}
+/*--------------------------------------------------------*/
+
+.login-body {
+    -fx-padding: 0 64 16 16;
+}
+
+.al-center-left {
+    -fx-alignment: center-left;
+}
+
+.sp-5 {
+    -fx-spacing: 5px;
+}
+
+.sp-10 {
+    -fx-spacing: 10px;
+}
+
+.width-120 {
+    -fx-pref-width: 120px;
+}
+
+.width-240 {
+    -fx-pref-width: 240px;
+    -fx-max-width: 360px;
+}
+
+.text-field, .password-field, .button {
+    -fx-background-color: secondary-light;
+    -fx-border-style: solid;
+    -fx-border-color: primary;
+}
+
+.button:hover, .button:focused {
+    -fx-background-color: primary;
+    -fx-text-fill: secondary-light;
+}
+
+.main-frame {
+    -fx-pref-width: 1280px;
+    -fx-pref-height: 780px;
+}
+
+.side-bar {
+    -fx-padding: 10 0 0 0;
+    -fx-background-color: primary;
+}
+
+.side-bar-menu {
+    -fx-alignment: center;
+    -fx-spacing: 5px;
+    -fx-pref-height: 80px;
+    -fx-pref-width: 100px;
+    -fx-min-width: 100px;
+}
+
+.side-bar-menu:hover {
+    -fx-background-color: secondary;
+}
+
+
+.side-bar-menu .label, .side-bar-menu SVGPath {
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+.side-bar-menu:hover .label, .side-bar-menu:hover SVGPath {
+    -fx-fill: primary;
+    -fx-text-fill: primary;
+}
+
+.side-bar-menu.active {
+    -fx-background-color: secondary;
+}
+
+.side-bar-menu.active .label, .side-bar-menu.active SVGPath{
+    -fx-fill: primary;
+    -fx-text-fill: primary;
+}
+
+.content-view {
+    -fx-pref-width: 1180px;
+    -fx-pref-height: 780px;
+    -fx-max-width: 5000px;
+    -fx-max-height: 3000px;
+    -fx-background-color: secondary;
+}
+/* ------------------- настройки диалоговых окон ---------------------*/
+.dialog {
+    -fx-pref-width: 600px;
+    -fx-background-color: secondary-light;
+}
+
+.dialog-icon {
+    -fx-pref-width: 160px;
+    -fx-alignment: center;
+    -fx-background-color: primary;
+}
+
+.dialog-icon SVGPath {
+    -fx-fill: secondary-light;
+}
+
+.dialog-body {
+    -fx-padding: 20px;
+    -fx-alignment: center-left;
+}
+
+.dialog-title {
+    -fx-font-size: 24px;
+}
+
+.dialog-message-box {
+    -fx-padding: 20 0 20 0;
+}
+
+.dialog-message-box Label {
+    -fx-font-size: 18px;
+}
+
+.dialog-button-box {
+    -fx-alignment: center-right;
+}
+
+.dialog-input-box {
+    -fx-padding: 10 0 0 0;
+}
+.dialog-input-box ComboBox{
+    -fx-pref-width: 380px;
+    -fx-max-width: 5000px;
+}
+/* ------------------------------------------------------------------------ */
+
+.up-button-bar-container {
+    -fx-min-height: 80px;
+    -fx-pref-height: 80px;
+    -fx-alignment: center-right;
+    -fx-padding: 5 0 0 0;
+    -fx-spacing: 50px;
+}
+
+.up-button-bar-container-custom {
+    -fx-min-height: 110px;
+    -fx-pref-height: 110px;
+    -fx-alignment: center-right;
+    -fx-padding: 5 0 0 0;
+    -fx-spacing: 50px;
+}
+
+.up-button-bar {
+    -fx-pref-height: 75px;
+    -fx-alignment: center-right;
+    -fx-padding: 5 0 0 0;
+}
+
+.up-button-bar-item {
+    -fx-pref-width: 80px;
+    -fx-pref-height: 60px;
+    -fx-alignment: center;
+}
+
+.up-button-bar-item .label {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+.up-button-bar-item:hover {
+    -fx-background-color: primary;
+}
+
+.up-button-bar-item:hover .label, .up-button-bar-item:hover SVGPath {
+    -fx-fill: secondary;
+    -fx-text-fill: secondary;
+}
+
+.category-box {
+    -fx-pref-width: 550px;
+    -fx-padding: 0 10 0 0;
+}
+/*-------- настрока внешнего вида таблиц ---------*/
+.table-view {
+    -fx-background-color: secondary-light;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: primary;
+}
+.table-view .column-header, .table-view .filler {
+    -fx-border-width: 1 1 1 1;
+    -fx-background-color: transparent;
+    -fx-border-color: secondary;
+    -fx-border-insets: 1 1 1 1;
+}
+/* -------- выделенная строка таблицы ----------------------*/
+.table-view:focused .table-row-cell:filled:focused:selected .table-cell:filled:focused:selected {
+    -fx-background-color: primary-light;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 10 2 10px;
+}
+.table-row-cell: hover{
+    -fx-background-color: primary-light;
+    -fx-text-background-color: red;
+}
+.table-row-cell: odd{
+    -fx-background-color: secondary;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell: even{
+    -fx-background-color: secondary-light;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-cell: selected{
+    -fx-background-color: primary-light;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+/*--------- скролл-бар --------------------*/
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, primary, secondary);
+}
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, primary, secondary);
+}
+
+/*---------------------------------------------------*/
+
+.padding-5 {
+    -fx-padding: 0 5 0 5;
+}
+
+.padding-all-5 {
+    -fx-padding: 5;
+}
+
+.scroll-pane-view {
+    -fx-border-color: transparent;
+    -fx-background-color: secondary;
+}
+
+.category-item {
+    -fx-padding: 5;
+    -fx-spacing: 10;
+    -fx-pref-width: 5000px;
+    -fx-alignment: center-left;
+    -fx-font-size: 20px;
+}
+
+.category-item:hover {
+    -fx-background-color: primary;
+}
+
+.category-item.active {
+    -fx-background-color: primary;
+}
+
+.up-chose-bar-container {
+    -fx-min-height: 40px;
+    -fx-pref-height: 40px;
+    -fx-alignment: center-left;
+    -fx-padding: 5 40 0 0;
+    -fx-spacing: 50px;
+}
+
+.up-chose-bar-container-nomenclature {
+    -fx-min-height: 40px;
+    -fx-pref-height: 40px;
+    -fx-alignment: center-left;
+    -fx-padding: 0 5 0 0;
+    -fx-spacing: 20px;
+}
+
+.up-chose-bar-container ComboBox{
+    -fx-pref-width: 255px;
+}
+
+.up-chose-bar-container TextField{
+    -fx-pref-width: 400px;
+}
+
+
+.up-chose-bar {
+    -fx-pref-height: 35px;
+    -fx-alignment: center;
+    -fx-padding: 5 0 0 0;
+}
+
+.up-chose-bar-fix-width-340 {
+    -fx-pref-width: 340px;
+    -fx-pref-height: 35px;
+    -fx-alignment: center-left;
+    -fx-padding: 5 0 0 10;
+}
+/* ------------------ настройка дилога редактирования заказа ----------------------- */
+.dialog-ordering-edit {
+    -fx-pref-width: 1280px;
+    -fx-max-width: 1280px;
+    -fx-background-color: secondary-light;
+}
+
+.dialog-ordering-edit-icon {
+    -fx-pref-width: 160px;
+    -fx-max-width: 160px;
+    -fx-alignment: center;
+    -fx-background-color: primary;
+}
+
+.dialog-ordering-edit-icon SVGPath {
+    -fx-fill: secondary-light;
+}
+
+.dialog-ordering-edit-body {
+    -fx-padding: 20px;
+    -fx-alignment: center-left;
+}
+
+.dialog-ordering-edit-title {
+    -fx-font-size: 24px;
+}
+
+.dialog-ordering-edit-message-box {
+    -fx-padding: 20 0 20 0;
+}
+
+.dialog-ordering-edit-message-box Label {
+    -fx-font-size: 18px;
+}
+
+
+.dialog-ordering-edit-button-box {
+    -fx-alignment: center-right;
+}
+
+.dialog-ordering-edit-input-box {
+    -fx-pref-width: 380px;
+    -fx-max-width: 500px;
+    -fx-padding: 10 0 0 0;
+}
+.dialog-ordering-edit-input-box ComboBox{
+    -fx-pref-width: 380px;
+    -fx-max-width: 500px;
+}
+/* ------------------------------------------------------------------------- */
+/* -------------- маленькие кнопки на вкладке Настройки -------------------- */
+.small-button-setting {
+    -fx-pref-width: 30px;
+    -fx-max-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+}
+
+.small-button-setting: hover {
+    -fx-background-color: primary;
+}
+.small-button-setting: hover SVGPath{
+    -fx-fill: secondary;
+}
+/* ------------------------------------------------------------------------- */
+
+#viewPrimaryColor, #viewPrimaryLightColor, #viewSecondaryColor, #viewSecondaryLightColor, #viewAlternateTextColor {
+    -fx-border-style: solid;
+    -fx-border-color: primary;
+}

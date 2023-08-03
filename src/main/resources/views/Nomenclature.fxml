@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../style/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="organizer.views.controller.NomenclatureController">
+    <children>
+        <HBox styleClass="up-button-bar-container" stylesheets="@../style/application.css">
+            <children>
+                <HBox HBox.hgrow="ALWAYS">
+                    <styleClass>
+                        <String fx:value="up-button-bar" />
+                        <String fx:value="category-box" />
+                        <String fx:value="sp-10" />
+                    </styleClass>
+                </HBox>
+                <HBox HBox.hgrow="ALWAYS">
+                    <children>
+                        <VBox onMouseClicked="#addNewNomenclature">
+                            <children>
+                                <SVGPath content="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z" scaleX="0.75" scaleY="0.75" />
+                                <Label text="Добавить номенклатуру" />
+                            </children>
+                            <styleClass>
+                                <String fx:value="up-button-bar-item" />
+                                <String fx:value="sp-5" />
+                            </styleClass>
+                        </VBox>
+                        <VBox onMouseClicked="#deleteNomenclature">
+                            <children>
+                                <SVGPath content="M0 13v6c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1h-30c-0.552 0-1 0.448-1 1z" scaleX="0.75" scaleY="0.75" />
+                                <Label text="Удалить номенклатуру" translateY="12.0" />
+                            </children>
+                            <styleClass>
+                                <String fx:value="up-button-bar-item" />
+                                <String fx:value="sp-5" />
+                            </styleClass>
+                        </VBox>
+                        <VBox onMouseClicked="#editNomenclature">
+                            <children>
+                                <SVGPath content="M27 0c2.761 0 5 2.239 5 5 0 1.126-0.372 2.164-1 3l-2 2-7-7 2-2c0.836-0.628 1.874-1 3-1zM2 23l-2 9 9-2 18.5-18.5-7-7-18.5 18.5zM22.362 11.362l-14 14-1.724-1.724 14-14 1.724 1.724z" scaleX="0.75" scaleY="0.75" />
+                                <Label text="Изменить номенклатуру" />
+                            </children>
+                            <styleClass>
+                                <String fx:value="up-button-bar-item" />
+                                <String fx:value="sp-5" />
+                            </styleClass>
+                        </VBox>
+                  <VBox onMouseClicked="#uploadNomenclature">
+                     <children>
+                        <SVGPath content="M26 2h-20l-6 6v21c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-21l-6-6zM16 26l-10-8h6v-6h8v6h6l-10 8zM4.828 6l2-2h18.343l2 2h-22.343z" scaleX="0.75" scaleY="0.75" />
+                        <Label text="Загрузить" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="up-button-bar-item" />
+                        <String fx:value="sp-5" />
+                     </styleClass>
+                  </VBox>
+                  <VBox onMouseClicked="#unloadingToExcel" styleClass="up-button-bar-item">
+                     <children>
+                        <SVGPath content="M31.404 4.136h-10.72v1.984h3.16v3.139h-3.16v1h3.16v3.143h-3.16v1.028h3.16v2.972h-3.16v1.191h3.16v2.979h-3.16v1.191h3.16v2.996h-3.16v2.185h10.72c0.169-0.051 0.311-0.251 0.424-0.597 0.113-0.349 0.172-0.633 0.172-0.848v-21.999c0-0.171-0.059-0.273-0.172-0.309-0.113-0.035-0.255-0.053-0.424-0.053zM30.013 25.755h-5.143v-2.993h5.143v2.996zM30.013 21.571h-5.143v-2.98h5.143zM30.013 17.4h-5.143v-2.959h5.143v2.961zM30.013 13.4h-5.143v-3.139h5.143v3.14zM30.013 9.241h-5.143v-3.12h5.143v3.14zM0 3.641v24.801l18.88 3.265v-31.416l-18.88 3.36zM11.191 22.403c-0.072-0.195-0.411-1.021-1.011-2.484-0.599-1.461-0.96-2.312-1.065-2.555h-0.033l-2.025 4.82-2.707-0.183 3.211-6-2.94-6 2.76-0.145 1.824 4.695h0.036l2.060-4.908 2.852-0.18-3.396 6.493 3.5 6.624-3.065-0.18z" fill="#217346" />
+                        <Label text="Выгрузка в Excel" />
+                     </children>
+                  </VBox>
+                    </children>
+                    <styleClass>
+                        <String fx:value="up-button-bar" />
+                        <String fx:value="category-box" />
+                        <String fx:value="sp-10" />
+                    </styleClass>
+                </HBox>
+            </children>
+        </HBox>
+        <HBox styleClass="up-chose-bar-container-nomenclature">
+            <children>
+                <HBox>
+                    <children>
+                  <SVGPath content="M38.5 0h-12c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l14.879-14.879c0.583-0.583 1.061-1.736 1.061-2.561v-12c0-0.825-0.675-1.5-1.5-1.5zM31 12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z M4 17l17-17h-2.5c-0.825 0-1.977 0.477-2.561 1.061l-14.879 14.879c-0.583 0.583-0.583 1.538 0 2.121l12.879 12.879c0.583 0.583 1.538 0.583 2.121 0l0.939-0.939-13-13z" scaleX="0.7" scaleY="0.7" />
+                        <ComboBox fx:id="category" prefWidth="300.0" promptText="Выбрать категорию" HBox.hgrow="ALWAYS" />
+                    </children>
+                    <styleClass>
+                        <String fx:value="up-chose-bar-fix-width-340" />
+                        <String fx:value="sp-10" />
+                    </styleClass>
+                </HBox>
+                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="743.0" HBox.hgrow="ALWAYS">
+                    <styleClass>
+                        <String fx:value="up-chose-bar" />
+                        <String fx:value="sp-10" />
+                    </styleClass>
+                    <children>
+                  <SVGPath content="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" scaleX="0.7" scaleY="0.7" />
+                        <TextField fx:id="search" promptText="Введите данные" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+        <HBox VBox.vgrow="ALWAYS">
+            <children>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="340.0" minHeight="-Infinity" minWidth="340.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <TableView fx:id="subcategoryTableView" maxWidth="340.0" minWidth="340.0" prefWidth="340.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="ID">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="id" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn maxWidth="400.0" minWidth="200.0" prefWidth="200.0" text="Наименование подкатегории">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="name" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                    <children>
+                        <TableView fx:id="nomenclatureTableView" VBox.vgrow="ALWAYS">
+                            <columns>
+                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" text="ID">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="id" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn maxWidth="900.0" minWidth="250.0" prefWidth="250.0" text="Наименование номенклатуры">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="name" />
+                           </cellValueFactory>
+                        </TableColumn>
+                                <TableColumn fx:id="codeKSMId" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" resizable="false" text="Код КСМ">
+
+                                </TableColumn>
+                                <TableColumn fx:id="codeKSMName" maxWidth="900.0" minWidth="250.0" prefWidth="250.0" text="Наименование кода КСМ">
+
+                                </TableColumn>
+                                <TableColumn fx:id="technicalRequirementId" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Карточка ОЛ/ТТ">
+
+                                </TableColumn>
+                                <TableColumn fx:id="technicalRequirementName" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Наименование карточки ОЛ/ТТ">
+
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+            <VBox.margin>
+                <Insets bottom="5.0" />
+            </VBox.margin>
+            <styleClass>
+                <String fx:value="padding-5" />
+                <String fx:value="sp-10" />
+            </styleClass>
+        </HBox>
+    </children>
+    <styleClass>
+        <String fx:value="content-view" />
+        <String fx:value="sp-5" />
+    </styleClass>
+</VBox>

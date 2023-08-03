@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="content-view" stylesheets="@../style/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="organizer.views.controller.TechnicalRequirementController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="up-button-bar" stylesheets="@../style/application.css">
+         <children>
+            <HBox>
+               <children>
+                  <VBox onMouseClicked="#addNewTechnicalRequirement">
+                     <children>
+                        <SVGPath content="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z" scaleX="0.75" scaleY="0.75" />
+                        <Label text="Добавить" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="up-button-bar-item" />
+                        <String fx:value="sp-5" />
+                     </styleClass>
+                  </VBox>
+                  <VBox onMouseClicked="#deleteTechnicalRequirement">
+                     <children>
+                        <SVGPath content="M0 13v6c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1h-30c-0.552 0-1 0.448-1 1z" scaleX="0.75" scaleY="0.75" />
+                        <Label text="Удалить" translateY="12.0" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="up-button-bar-item" />
+                        <String fx:value="sp-5" />
+                     </styleClass>
+                  </VBox>
+                  <VBox onMouseClicked="#editTechnicalRequirement">
+                     <children>
+                        <SVGPath content="M27 0c2.761 0 5 2.239 5 5 0 1.126-0.372 2.164-1 3l-2 2-7-7 2-2c0.836-0.628 1.874-1 3-1zM2 23l-2 9 9-2 18.5-18.5-7-7-18.5 18.5zM22.362 11.362l-14 14-1.724-1.724 14-14 1.724 1.724z" scaleX="0.75" scaleY="0.75" />
+                        <Label text="Изменить" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="up-button-bar-item" />
+                        <String fx:value="sp-5" />
+                     </styleClass>
+                  </VBox>
+                  <VBox onMouseClicked="#uploadTechnicalRequirement">
+                     <children>
+                        <SVGPath content="M26 2h-20l-6 6v21c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-21l-6-6zM16 26l-10-8h6v-6h8v6h6l-10 8zM4.828 6l2-2h18.343l2 2h-22.343z" scaleX="0.75" scaleY="0.75" />
+                        <Label text="Загрузить" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="up-button-bar-item" />
+                        <String fx:value="sp-5" />
+                     </styleClass>
+                  </VBox>
+                  <VBox onMouseClicked="#unloadingToExcel" styleClass="up-button-bar-item">
+                     <children>
+                        <SVGPath content="M31.404 4.136h-10.72v1.984h3.16v3.139h-3.16v1h3.16v3.143h-3.16v1.028h3.16v2.972h-3.16v1.191h3.16v2.979h-3.16v1.191h3.16v2.996h-3.16v2.185h10.72c0.169-0.051 0.311-0.251 0.424-0.597 0.113-0.349 0.172-0.633 0.172-0.848v-21.999c0-0.171-0.059-0.273-0.172-0.309-0.113-0.035-0.255-0.053-0.424-0.053zM30.013 25.755h-5.143v-2.993h5.143v2.996zM30.013 21.571h-5.143v-2.98h5.143zM30.013 17.4h-5.143v-2.959h5.143v2.961zM30.013 13.4h-5.143v-3.139h5.143v3.14zM30.013 9.241h-5.143v-3.12h5.143v3.14zM0 3.641v24.801l18.88 3.265v-31.416l-18.88 3.36zM11.191 22.403c-0.072-0.195-0.411-1.021-1.011-2.484-0.599-1.461-0.96-2.312-1.065-2.555h-0.033l-2.025 4.82-2.707-0.183 3.211-6-2.94-6 2.76-0.145 1.824 4.695h0.036l2.060-4.908 2.852-0.18-3.396 6.493 3.5 6.624-3.065-0.18z" fill="#217346" />
+                        <Label text="Выгрузка в Excel" />
+                     </children>
+                  </VBox>
+               </children>
+               <styleClass>
+                  <String fx:value="up-button-bar" />
+                  <String fx:value="category-box" />
+               </styleClass>
+            </HBox>
+         </children></HBox>
+      <HBox styleClass="padding-all-5">
+         <children>
+            <VBox styleClass="sp-5" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label styleClass="dialog-title" text="Поиск" />
+                     </children>
+                  </HBox>
+                  <HBox styleClass="sp-10">
+                     <children>
+                        <SVGPath content="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" scaleX="0.7" scaleY="0.7" />
+                        <TextField fx:id="search" maxHeight="1.7976931348623157E308" promptText="Введите данные" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="padding-all-5" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView fx:id="technicalRequirementContainer" HBox.hgrow="ALWAYS">
+              <columns>
+                <TableColumn maxWidth="140.0" minWidth="140.0" prefWidth="140.0" resizable="false">
+                     <graphic>
+                        <Label minHeight="34.0" prefHeight="34.0" text="Карточка ОЛ/ТТ" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                   <cellValueFactory>
+                      <PropertyValueFactory property="id" />
+                   </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn minWidth="350.0" prefWidth="350.0">
+                     <graphic>
+                        <Label minHeight="34.0" prefHeight="34.0" text="Наименование МТР" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                     <cellValueFactory>
+                        <PropertyValueFactory property="name" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn maxWidth="160.0" minWidth="160.0" prefWidth="160.0" resizable="false">
+                     <graphic>
+                        <Label minHeight="34.0" prefHeight="34.0" text="Код КСМ" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                     <cellValueFactory>
+                        <PropertyValueFactory property="codeKSM" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn minWidth="350.0" prefWidth="350.0">
+                     <graphic>
+                        <Label minHeight="34.0" prefHeight="34.0" text="Наименование МТР (по коду КСМ)" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                     <cellValueFactory>
+                        <PropertyValueFactory property="codeKSMName" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" resizable="false">
+                     <graphic>
+                        <Label prefHeight="54.0" text="Название файла ТЗ" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                     <cellValueFactory>
+                        <PropertyValueFactory property="fileTRName" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false">
+                     <graphic>
+                        <Label prefHeight="54.0" text="Системный номер транзакции" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                     <cellValueFactory>
+                        <PropertyValueFactory property="systemNumberTransaction" />
+                     </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="dateCreateCol" maxWidth="120.0" minWidth="120.0" prefWidth="120.0">
+                     <graphic>
+                        <Label prefHeight="54.0" text="Дата создания" textAlignment="CENTER" wrapText="true" />
+                     </graphic>
+                  </TableColumn>
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </HBox>
+   </children>
+</VBox>
