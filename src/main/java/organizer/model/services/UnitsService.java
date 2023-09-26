@@ -9,6 +9,8 @@ import organizer.model.repositories.UnitsRepository;
 
 import java.util.List;
 
+import static organizer.utils.Constants.ADD_UNIT_NAME;
+
 @Service
 public class UnitsService {
 
@@ -18,7 +20,7 @@ public class UnitsService {
 
     public void save(Units units) {
         if (StringUtils.isEmpty(units.getName())) {
-            throw new OrganizerException("Пожалуйста, введите наименование единицы измерения.");
+            throw new OrganizerException(ADD_UNIT_NAME);
         }
         unitsRepository.save(units);
     }

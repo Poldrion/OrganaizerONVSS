@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class NomenclatureService {
 
@@ -28,14 +30,14 @@ public class NomenclatureService {
 
     public void save(Nomenclature nomenclature) {
         if (StringUtils.isEmpty(nomenclature.getName())) {
-            throw new OrganizerException("Пожалуйста, введите имя объекта заявки.");
+            throw new OrganizerException(ADD_NOMENCLATURE_NAME);
         }
         nomenclatureRepository.save(nomenclature);
     }
 
     public void delete(String id) {
         nomenclatureRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление номенклатуры выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_NOMENCLATURE).build().show();
     }
 
     public List<Nomenclature> searchBySubcategoryAndName(Subcategory subcategory, String name) {

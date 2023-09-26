@@ -24,192 +24,198 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import static organizer.utils.Constants.*;
 import static organizer.utils.ExcelUtils.*;
 
 @Controller
 public class CategoryAndSubcategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private SubcategoryService subcategoryService;
+	@Autowired
+	private CategoryService categoryService;
+	@Autowired
+	private SubcategoryService subcategoryService;
 
 
-    @FXML
-    private TableView<Category> categoryContainer;
-    @FXML
-    private TableView<Subcategory> subcategoryContainer;
+	@FXML
+	private TableView<Category> categoryContainer;
+	@FXML
+	private TableView<Subcategory> subcategoryContainer;
 
 
-    @FXML
-    private void initialize() {
-        reload();
+	@FXML
+	private void initialize() {
+		reload();
 
-        categoryContainer.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
-                Category category = categoryContainer.getSelectionModel().getSelectedItem();
-                if (category != null) {
-                    searchSubcategory();
-                }
-            }
+		categoryContainer.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 1) {
+				Category category = categoryContainer.getSelectionModel().getSelectedItem();
+				if (category != null) {
+					searchSubcategory();
+				}
+			}
 
-            if (event.getClickCount() == 2) {
-                Category category = categoryContainer.getSelectionModel().getSelectedItem();
-                if (category != null) {
-                    CategoryEdit.editCategory(category, this::saveCategory);
-                }
-            }
-        });
+			if (event.getClickCount() == 2) {
+				Category category = categoryContainer.getSelectionModel().getSelectedItem();
+				if (category != null) {
+					CategoryEdit.editCategory(category, this::saveCategory);
+				}
+			}
+		});
 
-        categoryContainer.setPlaceholder(new Label("Нет элементов"));
-        subcategoryContainer.setPlaceholder(new Label("Нет элементов"));
+		categoryContainer.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
+		subcategoryContainer.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
 
-        TableviewElementUtils.setContextMenuForTable(categoryContainer);
-        TableviewElementUtils.setContextMenuForTable(subcategoryContainer);
-    }
+		TableviewElementUtils.setContextMenuForTable(categoryContainer);
+		TableviewElementUtils.setContextMenuForTable(subcategoryContainer);
+	}
 
-    @FXML
-    private void addNewCategory() {
-        CategoryEdit.addNewCategory(this::saveCategory);
-        try {
-            saveCategoryList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@FXML
+	private void addNewCategory() {
+		CategoryEdit.addNewCategory(this::saveCategory);
+		try {
+			saveCategoryList();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    @FXML
-    private void addNewSubcategory() {
-        SubcategoryEdit.addNewSubcategory(this::saveSubcategory, categoryService::findAll);
-    }
+	@FXML
+	private void addNewSubcategory() {
+		SubcategoryEdit.addNewSubcategory(this::saveSubcategory, categoryService::findAll);
+	}
 
-    @FXML
-    private void deleteCategory() {
-        categoryService.delete(categoryContainer.getSelectionModel().getSelectedItem().getId());
-        reload();
-    }
+	@FXML
+	private void deleteCategory() {
+		categoryService.delete(categoryContainer.getSelectionModel().getSelectedItem().getId());
+		reload();
+	}
 
-    @FXML
-    private void deleteSubcategory() {
-        subcategoryService.delete(subcategoryContainer.getSelectionModel().getSelectedItem().getId());
-        reload();
-    }
+	@FXML
+	private void deleteSubcategory() {
+		subcategoryService.delete(subcategoryContainer.getSelectionModel().getSelectedItem().getId());
+		reload();
+	}
 
-    private void saveSubcategory(Subcategory subcategory) {
-        subcategoryService.save(subcategory);
-        reload();
-    }
+	private void saveSubcategory(Subcategory subcategory) {
+		subcategoryService.save(subcategory);
+		reload();
+	}
 
-    private void saveCategory(Category category) {
-        categoryService.save(category);
-        reload();
-        try {
-            saveCategoryList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	private void saveCategory(Category category) {
+		categoryService.save(category);
+		reload();
+		try {
+			saveCategoryList();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    @FXML
-    private void editSubcategory() {
-        Subcategory subcategory = subcategoryContainer.getSelectionModel().getSelectedItem();
-        if (subcategory != null) {
-            SubcategoryEdit.edit(subcategory, this::saveSubcategory, categoryService::findAll);
-        }
-    }
+	@FXML
+	private void editSubcategory() {
+		Subcategory subcategory = subcategoryContainer.getSelectionModel().getSelectedItem();
+		if (subcategory != null) {
+			SubcategoryEdit.edit(subcategory, this::saveSubcategory, categoryService::findAll);
+		}
+	}
 
-    private void reload() {
-        categoryContainer.getItems().clear();
-        categoryContainer.getItems().addAll(categoryService.findAll());
-        searchSubcategory();
-    }
+	private void reload() {
+		categoryContainer.getItems().clear();
+		categoryContainer.getItems().addAll(categoryService.findAll());
+		searchSubcategory();
+	}
 
-    private void searchSubcategory() {
-        subcategoryContainer.getItems().clear();
-        Category category = categoryContainer.getSelectionModel().getSelectedItem();
-        List<Subcategory> listSubcategories = subcategoryService.search(category);
-        subcategoryContainer.getItems().addAll(listSubcategories);
-        categoryContainer.getSelectionModel().select(category);
-    }
+	private void searchSubcategory() {
+		subcategoryContainer.getItems().clear();
+		Category category = categoryContainer.getSelectionModel().getSelectedItem();
+		List<Subcategory> listSubcategories = subcategoryService.search(category);
+		subcategoryContainer.getItems().addAll(listSubcategories);
+		categoryContainer.getSelectionModel().select(category);
+	}
 
-    private void saveCategoryList() throws IOException {
-        List<Category> categoryList = categoryService.findAll();
-        Properties properties = new Properties();
-        properties.load(new FileInputStream("properties/categories.properties"));
+	private void saveCategoryList() throws IOException {
+		List<Category> categoryList = categoryService.findAll();
+		Properties properties = new Properties();
+		FileInputStream fis = new FileInputStream("properties/categories.properties");
+		properties.load(fis);
 
-        properties.setProperty("counts", String.valueOf(categoryList.size()));
-        for (Category c : categoryList) {
-            properties.setProperty("category" + categoryList.indexOf(c), c.getName());
-        }
-        properties.store(new FileOutputStream("properties/categories.properties"), null);
-    }
+		properties.setProperty("counts", String.valueOf(categoryList.size()));
+		for (Category c : categoryList) {
+			properties.setProperty("category" + categoryList.indexOf(c), c.getName());
+		}
+		FileOutputStream fos = new FileOutputStream("properties/categories.properties");
+		properties.store(fos, null);
 
-    @FXML
-    private void unloadingCategoryToExcel() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Выберите место сохранения файла");
-        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+		fis.close();
+		fos.close();
+	}
 
-        try {
-            File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
-            unloadCategoryToExcel(categoryService, resultsFolder.toString());
+	@FXML
+	private void unloadingCategoryToExcel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
 
-        } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция выгрузки прервана!").message("Не была выбрана папка для сохранения результатов выгрузки.").build().show();
-        }
+		try {
+			File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
+			unloadCategoryToExcel(categoryService, resultsFolder.toString());
 
-    }
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+		}
 
-    @FXML
-    private void unloadingSubcategoryToExcel() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Выберите место сохранения файла");
-        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+	}
 
-        try {
-            File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
-            unloadSubcategoryToExcel(subcategoryService, resultsFolder.toString());
+	@FXML
+	private void unloadingSubcategoryToExcel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+
+		try {
+			File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
+			unloadSubcategoryToExcel(subcategoryService, resultsFolder.toString());
 
 
-        } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция выгрузки прервана!").message("Не была выбрана папка для сохранения результатов выгрузки.").build().show();
-        }
-    }
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+		}
+	}
 
-    @FXML
-    private void editCategory() {
-        Category category = categoryContainer.getSelectionModel().getSelectedItem();
-        if (category != null) {
-            CategoryEdit.editCategory(category, this::saveCategory);
-        }
-    }
+	@FXML
+	private void editCategory() {
+		Category category = categoryContainer.getSelectionModel().getSelectedItem();
+		if (category != null) {
+			CategoryEdit.editCategory(category, this::saveCategory);
+		}
+	}
 
-    @FXML
-    private void uploadCategory() {
-        FileChooser fileChooser = getFileChooser("категорий");
-        try {
-            File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
+	@FXML
+	private void uploadCategory() {
+		FileChooser fileChooser = getFileChooser(CATEGORIES_UPLOAD_TITLE_SUFFIX);
+		try {
+			File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
 
-            ExcelUtils.uploadCategoryFromExcel(file, categoryService);
-            reload();
-            Dialog.DialogBuilder.builder().title("Операция загрузки выполнена").message("Загрузка данных выполнена успешно").build().show();
-        } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция загрузки прервана!").message("Не был выбран файл для загрузки.").build().show();
-        }
-    }
+			ExcelUtils.uploadCategoryFromExcel(file, categoryService);
+			reload();
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
+		}
+	}
 
-    @FXML
-    private void uploadSubcategory() {
-        FileChooser fileChooser = getFileChooser("подкатегорий");
+	@FXML
+	private void uploadSubcategory() {
+		FileChooser fileChooser = getFileChooser(SUBCATEGORIES_UPLOAD_TITLE_SUFFIX);
 
-        try {
-            File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
-            ExcelUtils.uploadSubcategoryFromExcel(file, subcategoryService, categoryService);
-            reload();
-            Dialog.DialogBuilder.builder().title("Операция загрузки выполнена").message("Загрузка данных выполнена успешно").build().show();
-        } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция загрузки прервана!").message("Не был выбран файл для загрузки.").build().show();
-        }
-    }
+		try {
+			File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
+			ExcelUtils.uploadSubcategoryFromExcel(file, subcategoryService, categoryService);
+			reload();
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
+		}
+	}
 
 }

@@ -13,6 +13,7 @@ import organizer.views.controller.common.Dialog;
 
 import java.util.function.Consumer;
 
+import static organizer.utils.Constants.*;
 import static organizer.utils.FormatUtils.formatNumber;
 import static organizer.utils.FormatUtils.parseNumber;
 
@@ -131,10 +132,10 @@ public class BusinessPlanEdit {
 
         if (businessPlan == null) {
             this.businessPlan = new BusinessPlan();
-            this.title.setText("Добавить новую версию бизнес-плана");
+            this.title.setText(ADD_NEW_VERSION_BP);
         } else {
             this.businessPlan = businessPlan;
-            this.title.setText("Редактировать версию бизнес-плана");
+            this.title.setText(EDIT_VERSION_BP);
             this.id.setText(businessPlan.getId());
             this.firstYear.setText(String.valueOf(businessPlan.getFirstYear()));
             this.firstYearCount.setText(formatNumber(businessPlan.getFirstYearCount().get(category.getText())));
@@ -689,7 +690,7 @@ public class BusinessPlanEdit {
 
             saveHandler.accept(businessPlan);
             close();
-            Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Создание/изменение версии БП выполнено успешно.").build().show();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_BP_COMPLETED_SUCCESSFULLY).build().show();
         } catch (OrganizerException e) {
             message.setText(e.getMessage());
         } catch (Exception e) {

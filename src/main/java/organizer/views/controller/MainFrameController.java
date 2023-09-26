@@ -17,6 +17,8 @@ import organizer.utils.Menu;
 
 import java.io.IOException;
 
+import static organizer.utils.Constants.*;
+
 @Controller
 public class MainFrameController {
 
@@ -37,8 +39,8 @@ public class MainFrameController {
         if (node.getId().equals("Exit")) {
             // подтверждение выхода
             Dialog.DialogBuilder.builder()
-                    .title("Подтверждение")
-                    .message("Вы действительно хотите выйти из программы?")
+                    .title(EXIT_DIALOG_TITLE)
+                    .message(EXIT_DIALOG_MESSAGE)
                     .okActionListener(() -> sideBar.getScene().getWindow().hide())
                     .build().show();
         } else {
@@ -76,7 +78,7 @@ public class MainFrameController {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("Органайзер ОНСС");
+            stage.setTitle(APPLICATION_TITLE);
             stage.getIcons().add(new Image("images/appIcon.png"));
             stage.setMaximized(true);
             stage.show();

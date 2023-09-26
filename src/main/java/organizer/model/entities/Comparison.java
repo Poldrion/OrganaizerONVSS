@@ -2,7 +2,7 @@ package organizer.model.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import organizer.utils.ListUtils;
+import organizer.utils.Constants;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -36,7 +36,7 @@ public class Comparison {
     public BigDecimal getLeasingCost(){
         BigDecimal result = BigDecimal.ZERO;
         for (String str : cost.keySet()) {
-            if (ListUtils.LEASING_CATEGORIES.contains(str)){
+            if (Constants.LEASING_CATEGORIES.contains(str)){
                 result = result.add(cost.get(str));
             }
         }
@@ -45,7 +45,7 @@ public class Comparison {
     public BigDecimal getCostWithoutLeasing(){
         BigDecimal result = BigDecimal.ZERO;
         for (String str : cost.keySet()) {
-            if (!ListUtils.LEASING_CATEGORIES.contains(str)){
+            if (!Constants.LEASING_CATEGORIES.contains(str)){
                 result = result.add(cost.get(str));
             }
         }

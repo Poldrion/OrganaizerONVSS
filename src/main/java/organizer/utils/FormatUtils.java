@@ -6,9 +6,12 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
+import static organizer.utils.Constants.PATTERN_FOR_NUMBERS;
+import static organizer.utils.Constants.STRING_FORMAT_FOR_NUMBER_FORMAT_EXCEPTION;
+
 public class FormatUtils {
 
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,##0.00");
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(PATTERN_FOR_NUMBERS);
 
     public static String formatNumber(BigDecimal data) {
         return DECIMAL_FORMAT.format(data);
@@ -18,9 +21,23 @@ public class FormatUtils {
         try {
             return BigDecimal.valueOf(DECIMAL_FORMAT.parse(str.replaceAll(" ", "").replaceAll("\\.", ",").trim()).doubleValue());
         } catch (ParseException e) {
-            throw new NumberFormatException(String.format("Неверный формат числа %s", str));
+            throw new NumberFormatException(String.format(STRING_FORMAT_FOR_NUMBER_FORMAT_EXCEPTION, str));
         }
     }
+
+    public static Long parseNumberOrdering(String str){
+        if (!str.trim().equals("")){
+            try{
+                return Long.parseLong(str);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException(String.format(STRING_FORMAT_FOR_NUMBER_FORMAT_EXCEPTION, str));
+            }
+        }else {
+            return (long) -1;
+        }
+
+    }
+
 
     public static boolean isNumeric(String string) {
         // Checks if the provided string

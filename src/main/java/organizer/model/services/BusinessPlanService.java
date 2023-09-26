@@ -10,6 +10,8 @@ import organizer.views.controller.common.Dialog;
 
 import java.util.List;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class BusinessPlanService {
 
@@ -22,17 +24,17 @@ public class BusinessPlanService {
 
     public void save(BusinessPlan businessPlan) {
         if (StringUtils.isEmpty(businessPlan.getId())) {
-            throw new OrganizerException("Пожалуйста, введите ID.");
+            throw new OrganizerException(ADD_ID);
         }
         if (StringUtils.isEmpty(businessPlan.getFirstYear())) {
-            throw new OrganizerException("Пожалуйста, введите первый год версии БП.");
+            throw new OrganizerException(ADD_FIRST_YEAR_FOR_BP);
         }
         businessPlanRepository.save(businessPlan);
     }
 
     public void delete(String id) {
         businessPlanRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление версии БП выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_VERSION_BP).build().show();
     }
 
     public BusinessPlan findById(String id) {

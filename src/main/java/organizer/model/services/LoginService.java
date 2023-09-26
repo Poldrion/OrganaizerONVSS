@@ -7,31 +7,33 @@ import organizer.model.entities.Account;
 import organizer.model.OrganizerException;
 import organizer.model.repositories.AccountRepository;
 
+import static organizer.utils.Constants.*;
+
 @Service
-public class LoginService{
+public class LoginService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+	@Autowired
+	private AccountRepository accountRepository;
 
-    public Account login(String loginId, String password) {
+	public Account login(String loginId, String password) {
 
-        if (StringUtils.isEmpty(loginId)) {
-            throw new OrganizerException("Пожалуйста, введите имя пользователя");
-        }
+		if (StringUtils.isEmpty(loginId)) {
+			throw new OrganizerException(ADD_LOGIN);
+		}
 
-        if (StringUtils.isEmpty(password)) {
-            throw new OrganizerException("Пожалуйста, введите пароль");
-        }
+		if (StringUtils.isEmpty(password)) {
+			throw new OrganizerException(ADD_PASSWORD);
+		}
 
-        Account account = accountRepository.findById(loginId).
-                orElseThrow(() -> new OrganizerException("Пожалуйста, проверьте Ваше имя пользователя."));
+		Account account = accountRepository.findById(loginId).
+				orElseThrow(() -> new OrganizerException(CHECK_LOGIN));
 
-        if (!password.equals(account.getPassword())){
-            throw new OrganizerException("Пожалуйста, проверьте Ваш пароль.");
-        }
+		if (!password.equals(account.getPassword())) {
+			throw new OrganizerException(CHECK_PASSWORD);
+		}
 
-        return account;
-    }
+		return account;
+	}
 
 
 }

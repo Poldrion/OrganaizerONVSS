@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class SubcategoryService {
 
@@ -26,14 +28,14 @@ public class SubcategoryService {
 
     public void save(Subcategory subcategory) {
         if (StringUtils.isEmpty(subcategory.getName())) {
-            throw new OrganizerException("Пожалуйста, введите имя подкатегории.");
+            throw new OrganizerException(ADD_SUBCATEGORY_NAME);
         }
         subcategoryRepository.save(subcategory);
     }
 
     public void delete(int id) {
         subcategoryRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление подкатегории выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_SUBCATEGORY).build().show();
     }
 
     public List<Subcategory> search(Category category) {

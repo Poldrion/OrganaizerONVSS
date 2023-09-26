@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
 
+import static organizer.utils.Constants.*;
+
 public class CategoryEdit {
 
     @FXML
@@ -58,10 +60,10 @@ public class CategoryEdit {
 
         if (category == null) {
             this.category = new Category();
-            this.title.setText("Добавить новую категорию");
+            this.title.setText(ADD_NEW_CATEGORY);
         } else {
             this.category = category;
-            this.title.setText("Редактировать категорию");
+            this.title.setText(EDIT_CATEGORY);
             this.name.setText(category.getName());
         }
 
@@ -80,7 +82,7 @@ public class CategoryEdit {
             category.setName(name.getText());
             saveHandler.accept(category);
             close();
-            Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Создание/изменение категории выполнено успешно.").build().show();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_CATEGORY_COMPLETED_SUCCESSFULLY).build().show();
         } catch (OrganizerException e) {
             message.setText(e.getMessage());
         } catch (Exception e) {

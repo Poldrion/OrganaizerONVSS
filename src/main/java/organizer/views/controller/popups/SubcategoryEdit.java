@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static organizer.utils.Constants.*;
+
 public class SubcategoryEdit {
 
     @FXML
@@ -62,10 +64,10 @@ public class SubcategoryEdit {
         category.getItems().addAll(supplier.get());
 
         if (subcategory == null) {
-            title.setText("Добавление новой подкатегории");
+            title.setText(ADD_NEW_SUBCATEGORY);
             this.subcategory = new Subcategory();
         } else {
-            title.setText("Редактирования текущей подкатегории");
+            title.setText(EDIT_SUBCATEGORY);
             this.subcategory = subcategory;
         }
 
@@ -86,7 +88,7 @@ public class SubcategoryEdit {
 
             saveHandler.accept(subcategory);
             close();
-            Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Создание/изменение подкатегории выполнено успешно.").build().show();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_SUBCATEGORY_COMPLETED_SUCCESSFULLY).build().show();
         } catch (OrganizerException e) {
             message.setText(e.getMessage());
         } catch (Exception e) {

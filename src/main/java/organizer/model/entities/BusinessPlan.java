@@ -46,11 +46,13 @@ public class BusinessPlan {
         List<String> categories = new ArrayList<>();
         Properties categoryProperties = new Properties();
         try {
-            categoryProperties.load(new FileInputStream("properties/categories.properties"));
+            FileInputStream fis =  new FileInputStream("properties/categories.properties");
+            categoryProperties.load(fis);
             int counts = Integer.parseInt(categoryProperties.getProperty("counts"));
             for (int i = 0; i < counts; i++) {
                 categories.add(categoryProperties.getProperty("category" + i));
             }
+            fis.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

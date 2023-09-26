@@ -16,6 +16,7 @@ import organizer.views.controller.popups.CodeKSMEdit;
 
 import java.io.File;
 
+import static organizer.utils.Constants.*;
 import static organizer.utils.ExcelUtils.getFileChooser;
 import static organizer.utils.ExcelUtils.unloadCodeKSMToExcel;
 
@@ -38,7 +39,7 @@ public class CodeKSMController {
             codeKSMContainer.getItems().clear();
             codeKSMContainer.getItems().addAll(codeKSMService.findByAllColumns(newValue));
         });
-        codeKSMContainer.setPlaceholder(new Label("Нет элементов"));
+        codeKSMContainer.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
     }
 
     private void reload() {
@@ -77,7 +78,7 @@ public class CodeKSMController {
     @FXML
     private void unloadingToExcel() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Выберите место сохранения файла");
+        directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
 
         try {
@@ -85,20 +86,20 @@ public class CodeKSMController {
             unloadCodeKSMToExcel(codeKSMService, resultsFolder.toString());
 
         } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция выгрузки прервана!").message("Не была выбрана папка для сохранения результатов выгрузки.").build().show();
+            Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
         }
     }
 
     @FXML
     private void uploadCodeKSM() {
-        FileChooser fileChooser = getFileChooser("кодов КСМ");
+        FileChooser fileChooser = getFileChooser(CODES_KSM_UPLOAD_TITLE_SUFFIX);
         try {
             File file = fileChooser.showOpenDialog(codeKSMContainer.getScene().getWindow());
             ExcelUtils.uploadCodeKSMFromExcel(file, codeKSMService);
             reload();
-            Dialog.DialogBuilder.builder().title("Операция загрузки выполнена").message("Загрузка данных выполнена успешно").build().show();
+            Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
         } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция загрузки прервана!").message("Не был выбран файл для загрузки.").build().show();
+            Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
         }
     }
 

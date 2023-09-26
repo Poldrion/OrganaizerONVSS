@@ -12,6 +12,8 @@ import organizer.views.controller.common.Dialog;
 
 import java.util.*;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class CodeKSMService {
 
@@ -36,11 +38,11 @@ public class CodeKSMService {
 
     public void save(CodeKSM codeKSM) {
         if (StringUtils.isEmpty(codeKSM.getId())) {
-            throw new OrganizerException("Пожалуйста, введите код КСМ.");
+            throw new OrganizerException(ADD_CODE_KSM);
         }
 
         if (StringUtils.isEmpty(codeKSM.getName())) {
-            throw new OrganizerException("Пожалуйста, введите краткое наименование МТР.");
+            throw new OrganizerException(ADD_SHORT_NAME_EQUIPMENT);
         }
 
         codeKSMRepository.save(codeKSM);
@@ -50,7 +52,7 @@ public class CodeKSMService {
 
     public void delete(String id) {
         codeKSMRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление кода КСМ выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_CODE_KSM).build().show();
     }
 
     public List<CodeKSM> findAll() {

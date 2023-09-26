@@ -14,7 +14,9 @@ import organizer.model.entities.Units;
 import organizer.model.services.CategoryService;
 import organizer.model.services.ComparisonService;
 import organizer.model.services.OrderingService;
-import organizer.utils.ListUtils;
+import organizer.utils.Constants;
+import organizer.utils.CurrentData;
+import organizer.utils.FormatUtils;
 import organizer.utils.TableviewElementUtils;
 import organizer.views.controller.common.Dialog;
 
@@ -22,14 +24,17 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static organizer.utils.Constants.*;
 import static organizer.utils.ExcelUtils.unloadMainTableToExcel;
-import static organizer.utils.FormatUtils.*;
+import static organizer.utils.FormatUtils.formatNumber;
+import static organizer.utils.FormatUtils.parseNumber;
 
 @Controller
 public class MainController {
@@ -80,14 +85,14 @@ public class MainController {
         if (categoryService.findAll().size() != 0) {
             mainTableView.getItems().addAll(categoryService.findAll());
         }
-        year.getItems().addAll(ListUtils.getYears());
-        LocalDate currentDate = LocalDate.now();
-        year.getSelectionModel().select(String.valueOf(currentDate.getYear()));
-        period.getItems().addAll(ListUtils.PERIOD);
+        year.getItems().addAll(CurrentData.YEARS);
+        year.getSelectionModel().select(String.valueOf(CurrentData.CURRENT_YEAR));
+        period.getItems().addAll(Constants.PERIOD);
         period.getSelectionModel().selectFirst();
 
 
         year.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            CurrentData.CURRENT_YEAR = Integer.parseInt(newValue);
             reload();
             mainTableView.refresh();
         });
@@ -99,7 +104,7 @@ public class MainController {
         try {
             comparison = comparisonService.searchById(year.getValue());
         } catch (NoSuchElementException e) {
-            Dialog.DialogBuilder.builder().title("Ошибка!!!").message("Не выбрана версия БП для текущего года").build().show();
+            Dialog.DialogBuilder.builder().title(ERROR).message(NO_CHOOSE_VERSION_BP_FOR_CURRENT_YEAR).build().show();
         }
         if (comparison != null) {
             settingMainTableView();
@@ -148,29 +153,52 @@ public class MainController {
         // Бизнес-план
         countPlanCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCountPlan(cellData.getValue())));
         countPlanCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        countPlanCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         costPlanCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCostWithoutTaxPlan(cellData.getValue())));
         costPlanCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        costPlanCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         costWithTaxPlanCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCostPlan(cellData.getValue())));
         costWithTaxPlanCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-        // Фактическая передача (указаны номера заявок и позиций
+        costWithTaxPlanCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
+        // Фактическая передача (указаны номера заявок и позиций)
         countCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCountByYearAndPeriodFact(cellData.getValue())));
         countCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        countCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         costCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCostByYearAndPeriodFact(cellData.getValue())));
         costCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        costCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         costWithTaxCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCostWithTaxByYearAndPeriodFact(cellData.getValue())));
         costWithTaxCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        costWithTaxCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         // Остаток для передачи (отсутствуют номера заявок и позиций)
         countRemainsCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCountByYearAndPeriodRemains(cellData.getValue())));
         countRemainsCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        countRemainsCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         costRemainsCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCostByYearAndPeriodRemains(cellData.getValue())));
         costRemainsCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        costRemainsCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         costWithTaxRemainsCol.setCellValueFactory(cellData -> new SimpleStringProperty(getCostWithTaxByYearAndPeriodRemains(cellData.getValue())));
         costWithTaxRemainsCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        costWithTaxRemainsCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+
         // Процент передачи потребности по категориям
         percentCol.setCellValueFactory(cellData -> new SimpleStringProperty(getPercent(cellData.getValue())));
         percentCol.setStyle("-fx-alignment: CENTER-RIGHT;");
+        percentCol.setComparator((o1, o2) -> {
+            String tempO1 = o1.replace("%","");
+            String tempO2 = o2.replace("%","");
+            return parseNumber(tempO1).compareTo(parseNumber(tempO2));
+        });
 
-        mainTableView.setPlaceholder(new Label("Нет элементов"));
+        mainTableView.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
 
         TableviewElementUtils.setContextMenuForTable(mainTableView);
     }
@@ -178,7 +206,7 @@ public class MainController {
     @FXML
     void unloadingToExcel() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Выберите место сохранения файла");
+        directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
         try {
             File resultsFolder = directoryChooser.showDialog(year.getScene().getWindow());
@@ -191,7 +219,7 @@ public class MainController {
                     mainTableView, categoryCol, unitsCol, countCol, costCol,
                     costWithTaxCol, countPlanCol, costPlanCol, costWithTaxPlanCol, countRemainsCol, costRemainsCol, costWithTaxRemainsCol, percentCol, resultsFolder.toString());
         } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title("Операция выгрузки прервана!").message("Не была выбрана папка для сохранения результатов выгрузки.").build().show();
+            Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
         }
     }
 
@@ -203,7 +231,7 @@ public class MainController {
         try {
             comparison = comparisonService.searchById(year.getValue());
         } catch (NoSuchElementException e) {
-            Dialog.DialogBuilder.builder().title("Ошибка!!!").message("Не выбрана версия БП для текущего года").build().show();
+            Dialog.DialogBuilder.builder().title(ERROR).message(NO_CHOOSE_VERSION_BP_FOR_CURRENT_YEAR).build().show();
         }
         settingsLabelsAndProgressBars();
     }
@@ -211,29 +239,29 @@ public class MainController {
 
     private List<Ordering> getPeriodFilterList(List<Ordering> currentList) {
         return switch (period.getSelectionModel().getSelectedItem()) {
-            case "Январь" ->
+            case JANUARY ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 1).collect(Collectors.toList());
-            case "Февраль" ->
+            case FEBRUARY ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 2).collect(Collectors.toList());
-            case "Март" ->
+            case MARCH ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 3).collect(Collectors.toList());
-            case "Апрель" ->
+            case APRIL ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 4).collect(Collectors.toList());
-            case "Май" ->
+            case MAY ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 5).collect(Collectors.toList());
-            case "Июнь" ->
+            case JUNE ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 6).collect(Collectors.toList());
-            case "Июль" ->
+            case JULY ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 7).collect(Collectors.toList());
-            case "Август" ->
+            case AUGUST ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 8).collect(Collectors.toList());
-            case "Сентябрь" ->
+            case SEPTEMBER ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 9).collect(Collectors.toList());
-            case "Октябрь" ->
+            case OCTOBER ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 10).collect(Collectors.toList());
-            case "Ноябрь" ->
+            case NOVEMBER ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 11).collect(Collectors.toList());
-            case "Декабрь" ->
+            case DECEMBER ->
                     currentList.stream().filter(x -> x.getDate().getMonth().getValue() == 12).collect(Collectors.toList());
             default -> currentList;
         };
@@ -246,7 +274,7 @@ public class MainController {
      *
      * @param category категория, для которой необходимо получить сумму по заданному полю объекта Ordering
      */
-    private @NotNull String getCountByYearAndPeriodFact(Category category) {
+    private String getCountByYearAndPeriodFact(Category category) {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCount;
         BigDecimal count = getBigDecimalFact(category, totalMapper);
         return formatNumber(count);
@@ -257,7 +285,7 @@ public class MainController {
      *
      * @param category категория, для которой необходимо получить сумму по заданному полю объекта Ordering
      */
-    private @NotNull String getCostByYearAndPeriodFact(Category category) {
+    private String getCostByYearAndPeriodFact(Category category) {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getBigDecimalFact(category, totalMapper);
         return formatNumber(cost);
@@ -269,7 +297,7 @@ public class MainController {
      * @param category категория, для которой необходимо получить сумму по заданному полю объекта Ordering
      */
 
-    private @NotNull String getCostWithTaxByYearAndPeriodFact(Category category) {
+    private String getCostWithTaxByYearAndPeriodFact(Category category) {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getBigDecimalFact(category, totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -319,7 +347,7 @@ public class MainController {
      *
      * @param category категория, для которой необходимо получить сумму по заданному полю объекта Ordering
      */
-    private @NotNull String getCountByYearAndPeriodRemains(Category category) {
+    private String getCountByYearAndPeriodRemains(Category category) {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCount;
         BigDecimal count = getBigDecimalRemains(category, totalMapper);
         return formatNumber(count);
@@ -330,7 +358,7 @@ public class MainController {
      *
      * @param category категория, для которой необходимо получить сумму по заданному полю объекта Ordering
      */
-    private @NotNull String getCostByYearAndPeriodRemains(Category category) {
+    private String getCostByYearAndPeriodRemains(Category category) {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getBigDecimalRemains(category, totalMapper);
         return formatNumber(cost);
@@ -342,7 +370,7 @@ public class MainController {
      * @param category категория, для которой необходимо получить сумму по заданному полю объекта Ordering
      */
 
-    private @NotNull String getCostWithTaxByYearAndPeriodRemains(Category category) {
+    private String getCostWithTaxByYearAndPeriodRemains(Category category) {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getBigDecimalRemains(category, totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -385,45 +413,45 @@ public class MainController {
         return unitsMaxCount != null ? unitsMaxCount.getName() : "";
     }
 
-    private @NotNull String getCountPlan(@NotNull Category category) {
+    private String getCountPlan(@NotNull Category category) {
         HashMap<String, BigDecimal> temp = comparison.getCount();
         return formatNumber(temp.get(category.getName()));
     }
 
-    private @NotNull String getCostPlan(@NotNull Category category) {
+    private String getCostPlan(@NotNull Category category) {
         HashMap<String, BigDecimal> temp = comparison.getCost();
         return formatNumber(temp.get(category.getName()));
     }
 
-    private @NotNull String getCostWithoutTaxPlan(@NotNull Category category) {
+    private String getCostWithoutTaxPlan(@NotNull Category category) {
         HashMap<String, BigDecimal> temp = comparison.getCost();
         return formatNumber(temp.get(category.getName()).divide(BigDecimal.valueOf(1.20), 2, RoundingMode.HALF_UP));
     }
 
-    private @NotNull String getPercent(Category category) {
+    private String getPercent(Category category) {
         try {
             BigDecimal result = parseNumber(getCostWithTaxByYearAndPeriodFact(category))
                     .divide(parseNumber(getCostPlan(category)), 2, RoundingMode.HALF_UP)
                     .multiply(BigDecimal.valueOf(100));
             return formatNumber(result) + "%";
         } catch (ArithmeticException e) {
-            return "0%";
+            return "0,00%";
         }
     }
 
-    private @NotNull BigDecimal getPercentGeneralBP() {
+    private BigDecimal getPercentGeneralBP() {
         return getFactOrdering(Ordering::getCost)
                 .multiply(BigDecimal.valueOf(1.2))
                 .divide(comparison.getGeneralCost(), 4, RoundingMode.HALF_UP);
     }
 
-    private @NotNull BigDecimal getPercentLeasingBP() {
+    private BigDecimal getPercentLeasingBP() {
         return getLeasingOrderingFact(Ordering::getCost)
                 .multiply(BigDecimal.valueOf(1.2))
                 .divide(comparison.getLeasingCost(), 4, RoundingMode.HALF_UP);
     }
 
-    private @NotNull BigDecimal getPercentBPWithoutLeasing() {
+    private BigDecimal getPercentBPWithoutLeasing() {
         return getOrderingWithoutLeasingFact(Ordering::getCost)
                 .multiply(BigDecimal.valueOf(1.2))
                 .divide(comparison.getCostWithoutLeasing(), 4, RoundingMode.HALF_UP);
@@ -432,7 +460,7 @@ public class MainController {
     //********************************************************************************************
 
     // Факт
-    private @NotNull String getCostWithTaxByYearAndPeriodFact() {
+    private String getCostWithTaxByYearAndPeriodFact() {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getFactGeneral(totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -445,7 +473,7 @@ public class MainController {
         return orderings.stream().map(totalMapper).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private @NotNull String getCostWithTaxByYearAndPeriodFactLeasing() {
+    private String getCostWithTaxByYearAndPeriodFactLeasing() {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getFactLeasing(totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -459,7 +487,7 @@ public class MainController {
         return orderings.stream().map(totalMapper).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private @NotNull String getCostWithTaxByYearAndPeriodFactWithoutLeasing() {
+    private  String getCostWithTaxByYearAndPeriodFactWithoutLeasing() {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getFactWithoutLeasing(totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -474,7 +502,7 @@ public class MainController {
     }
 
     // Осталось
-    private @NotNull String getCostWithTaxByYearAndPeriodRemains() {
+    private String getCostWithTaxByYearAndPeriodRemains() {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getRemainsGeneral(totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -487,7 +515,7 @@ public class MainController {
         return orderings.stream().map(totalMapper).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private @NotNull String getCostWithTaxByYearAndPeriodRemainsLeasing() {
+    private String getCostWithTaxByYearAndPeriodRemainsLeasing() {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getRemainsLeasing(totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));
@@ -501,7 +529,7 @@ public class MainController {
         return orderings.stream().map(totalMapper).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private @NotNull String getCostWithTaxByYearAndPeriodRemainsWithoutLeasing() {
+    private String getCostWithTaxByYearAndPeriodRemainsWithoutLeasing() {
         Function<Ordering, BigDecimal> totalMapper = Ordering::getCost;
         BigDecimal cost = getRemainsWithoutLeasing(totalMapper);
         return formatNumber(cost.multiply(BigDecimal.valueOf(1.20)));

@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class OrderingService {
 
@@ -31,7 +33,7 @@ public class OrderingService {
 
     public void save(Ordering ordering) {
         if (ordering.getNomenclature() == null) {
-            throw new OrganizerException("Проверьте правильность ввода кода КСМ и/или номера карточки ОЛ/ТТ.");
+            throw new OrganizerException(CHECK_CODE_KSM_OR_TECHNICAL_REQUIREMENT);
         }
         orderingRepository.save(ordering);
     }
@@ -42,7 +44,7 @@ public class OrderingService {
 
     public void deleteById(long id) {
         orderingRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление заказа выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_ORDERING).build().show();
     }
 
     public List<Ordering> findByYear(LocalDate dateStart, LocalDate dateEnd) {

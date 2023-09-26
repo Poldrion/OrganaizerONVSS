@@ -20,6 +20,8 @@ import organizer.model.services.LoginService;
 
 import java.io.IOException;
 
+import static organizer.utils.Constants.LOGIN_TITLE;
+
 @Controller
 public class LoginController {
 
@@ -87,7 +89,7 @@ public class LoginController {
             LoginController controller = loader.getController();
             controller.attachEvent();
 
-            stage.setTitle("Вход в приложение");
+            stage.setTitle(LOGIN_TITLE);
             stage.getIcons().add(new Image("images/appIcon.png"));
             stage.centerOnScreen();
             stage.show();

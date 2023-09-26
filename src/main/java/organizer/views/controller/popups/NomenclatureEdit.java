@@ -20,6 +20,8 @@ import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static organizer.utils.Constants.*;
+
 @Controller
 public class NomenclatureEdit {
 
@@ -106,10 +108,10 @@ public class NomenclatureEdit {
 
         if (nomenclature == null) {
             this.nomenclature = new Nomenclature();
-            this.title.setText("Добавление новой номенклатуры");
+            this.title.setText(ADD_NEW_NOMENCLATURE);
         } else {
             this.nomenclature = nomenclature;
-            this.title.setText("Редактирование текущей номенклатуры");
+            this.title.setText(EDIT_NOMENCLATURE);
             this.category.setValue(nomenclature.getSubcategory().getCategory());
             this.subcategory.setValue(nomenclature.getSubcategory());
             this.codeKSM.setText(nomenclature.getCodeKSM().getId());
@@ -135,7 +137,7 @@ public class NomenclatureEdit {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException e) {
-                message.setText(String.format("Указанный Код КСМ №%s не найден.", codeKSM.getText()));
+                message.setText(String.format(CURRENT_CODE_KSM_NOT_FOUND, codeKSM.getText()));
             }
 
             try {
@@ -145,7 +147,7 @@ public class NomenclatureEdit {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException e) {
-                message.setText(String.format("Указанная карточка ОЛ/ТТ №%s не найдена.", technicalRequirement.getText()));
+                message.setText(String.format(CURRENT_TECHNICAL_REQUIREMENT_NOT_FOUND, technicalRequirement.getText()));
             }
             try {
                 if (technicalRequirement.getText().isEmpty() || technicalRequirement.getText() == null) {
@@ -160,13 +162,13 @@ public class NomenclatureEdit {
                 saveHandler.accept(nomenclature);
                 close();
             } catch (NullPointerException e) {
-                message.setText(message.getText() + "\nПроверьте правильность ввода кода КСМ и номера карточки ОЛ/ТТ.");
+                message.setText(message.getText() + INCORRECT_CODE_KSM_OR_TECHNICAL_REQUIREMENT);
             }
-            Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Создание/изменение номенклатуры выполнено успешно.").build().show();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_NOMENCLATURE_COMPLETED_SUCCESSFULLY).build().show();
         } catch (OrganizerException e) {
             message.setText(e.getMessage());
         } catch (DataIntegrityViolationException e) {
-            message.setText(String.format("Указанный ОЛ/ТТ №%s уже используется с другим КСМ.", technicalRequirement.getText()));
+            message.setText(String.format(CURRENT_TECHNICAL_REQUIREMENT_ALREADY_USED, technicalRequirement.getText()));
         } catch (Exception e) {
             e.printStackTrace();
         }

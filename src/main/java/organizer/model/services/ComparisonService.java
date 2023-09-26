@@ -7,6 +7,8 @@ import organizer.model.OrganizerException;
 import organizer.model.entities.Comparison;
 import organizer.model.repositories.ComparisonRepository;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class ComparisonService {
 
@@ -15,16 +17,16 @@ public class ComparisonService {
 
     public void save(Comparison comparison) {
         if (StringUtils.isEmpty(comparison.getId())) {
-            throw new OrganizerException("Пожалуйста, введите год.");
+            throw new OrganizerException(ADD_YEAR);
         }
         if (comparison.getBusinessPlan()==null) {
-            throw new OrganizerException("Пожалуйста, выберите версию БП.");
+            throw new OrganizerException(CHOOSE_VERSION_BP);
         }
         if (comparison.getCount()==null) {
-            throw new OrganizerException("Пожалуйста, выберите год версии БП для таблицы кол-ва.");
+            throw new OrganizerException(CHOOSE_YEAR_VERSION_BP_FOR_COUNT_TABLE);
         }
         if (comparison.getCost()==null) {
-            throw new OrganizerException("Пожалуйста, выберите год версии БП для таблицы ст-ти.");
+            throw new OrganizerException(CHOOSE_YEAR_VERSION_BP_FOR_COST_TABLE);
         }
         comparisonRepository.save(comparison);
     }

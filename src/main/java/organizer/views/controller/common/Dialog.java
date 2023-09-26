@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import static organizer.utils.Constants.CLOSE_TITLE;
+
 public class Dialog {
 
     @FXML
@@ -78,7 +80,7 @@ public class Dialog {
                     });
                 } else {
                     controller.okBtn.setVisible(false);
-                    controller.closeBtn.setText("ЗАКРЫТЬ");
+                    controller.closeBtn.setText(CLOSE_TITLE);
                 }
 
                 return controller;

@@ -13,6 +13,8 @@ import organizer.views.controller.common.Dialog;
 
 import java.util.function.Consumer;
 
+import static organizer.utils.Constants.*;
+
 public class CodeKSMEdit {
 
     @FXML
@@ -60,7 +62,7 @@ public class CodeKSMEdit {
 
             saveHandler.accept(codeKSM);
             close();
-            Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Создание/изменение кода КСМ выполнено успешно.").build().show();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_CODE_KSM_COMPLETED_SUCCESSFULLY).build().show();
         } catch (OrganizerException e) {
             message.setText(e.getMessage());
         } catch (Exception e) {
@@ -81,10 +83,10 @@ public class CodeKSMEdit {
 
 
         if (codeKSM == null) {
-            title.setText("Добавление нового кода КСМ");
+            title.setText(ADD_NEW_CODE_KSM);
             this.codeKSM = new CodeKSM();
         } else {
-            title.setText("Редактирования кода КСМ");
+            title.setText(EDIT_CODE_KSM);
             this.codeKSM = codeKSM;
         }
 

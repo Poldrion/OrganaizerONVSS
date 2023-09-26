@@ -15,6 +15,8 @@ import organizer.views.controller.common.Dialog;
 
 import java.util.function.Consumer;
 
+import static organizer.utils.Constants.*;
+
 public class TechnicalRequirementEdit {
 
     @FXML
@@ -66,10 +68,10 @@ public class TechnicalRequirementEdit {
 
         if (technicalRequirement == null) {
             this.technicalRequirement = new TechnicalRequirement();
-            this.title.setText("Добавить новую карточку ОЛ/ТТ");
+            this.title.setText(ADD_NEW_TECHNICAL_REQUIREMENT);
         } else {
             this.technicalRequirement = technicalRequirement;
-            this.title.setText("Редактировать текущую карточку ОЛ/ТТ");
+            this.title.setText(EDIT_TECHNICAL_REQUIREMENT);
             this.id.setText(technicalRequirement.getId());
             this.name.setText(technicalRequirement.getName());
             this.codeKSM.setText(technicalRequirement.getCodeKSM());
@@ -98,7 +100,7 @@ public class TechnicalRequirementEdit {
 
             saveHandler.accept(technicalRequirement);
             close();
-            Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Создание/изменение карточки ОЛ/ТТ выполнено успешно.").build().show();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_TECHNICAL_REQUIREMENT_COMPLETED_SUCCESSFULLY).build().show();
         } catch (OrganizerException e) {
             message.setText(e.getMessage());
         } catch (Exception e) {

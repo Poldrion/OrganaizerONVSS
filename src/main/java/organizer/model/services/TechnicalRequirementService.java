@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class TechnicalRequirementService {
     @Autowired
@@ -22,22 +24,22 @@ public class TechnicalRequirementService {
 
     public void save(TechnicalRequirement technicalRequirement) {
         if (StringUtils.isEmpty(technicalRequirement.getId())) {
-            throw new OrganizerException("Пожалуйста, введите номер карточки ОЛ/ТТ.");
+            throw new OrganizerException(ADD_TECHNICAL_REQUIREMENT_NUMBER);
         }
         if (StringUtils.isEmpty(technicalRequirement.getName())) {
-            throw new OrganizerException("Пожалуйста, введите наименование МТР в карточке ОЛ/ТТ.");
+            throw new OrganizerException(ADD_TECHNICAL_REQUIREMENT_NAME);
         }
         if (StringUtils.isEmpty(technicalRequirement.getCodeKSM())) {
-            throw new OrganizerException("Пожалуйста, введите код КСМ.");
+            throw new OrganizerException(ADD_CODE_KSM);
         }
         if (StringUtils.isEmpty(technicalRequirement.getFileTRName())) {
-            throw new OrganizerException("Пожалуйста, введите название файла ТЗ.");
+            throw new OrganizerException(ADD_TECHNICAL_REQUIREMENT_FILE_NAME);
         }
         if (StringUtils.isEmpty(technicalRequirement.getSystemNumberTransaction())) {
-            throw new OrganizerException("Пожалуйста, введите номер системной транзакции.");
+            throw new OrganizerException(ADD_SYSTEM_TRANSACTION_NUMBER);
         }
         if (StringUtils.isEmpty(technicalRequirement.getDateCreate())) {
-            throw new OrganizerException("Пожалуйста, введите дату создания карточки ОЛ/ТТ.");
+            throw new OrganizerException(ADD_DATE_CREATE_TECHNICAL_REQUIREMENT);
         }
 
         technicalRequirementRepository.save(technicalRequirement);
@@ -49,7 +51,7 @@ public class TechnicalRequirementService {
 
     public void delete(String id) {
         technicalRequirementRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление карточки ОЛ/ТТ выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_TECHNICAL_REQUIREMENT).build().show();
     }
 
     public List<TechnicalRequirement> findByName(String name) {

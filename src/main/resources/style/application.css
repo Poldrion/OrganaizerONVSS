@@ -341,6 +341,7 @@ Customize the selected cell
     -fx-background-color:  linear-gradient(to right, primary, secondary);
 }
 
+
 /*---------------------------------------------------*/
 
 .padding-5 {
@@ -478,4 +479,31 @@ Customize the selected cell
 #viewPrimaryColor, #viewPrimaryLightColor, #viewSecondaryColor, #viewSecondaryLightColor, #viewAlternateTextColor {
     -fx-border-style: solid;
     -fx-border-color: primary;
+}
+
+.scroll-pane{
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+.scroll-pane Label{
+    -fx-text-fill: black;
+}
+.scroll-pane .scroll-bar:vertical,
+.scroll-pane .scroll-bar:vertical .track,
+.scroll-pane .scroll-bar:vertical .track-background,
+.scroll-pane .scroll-bar:horizontal,
+.scroll-pane .scroll-bar:horizontal .track,
+.scroll-pane .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
+}
+.scroll-pane .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, primary, secondary);
+}
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, primary, secondary);
 }

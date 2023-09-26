@@ -10,6 +10,8 @@ import organizer.views.controller.common.Dialog;
 
 import java.util.List;
 
+import static organizer.utils.Constants.*;
+
 @Service
 public class CategoryService {
 
@@ -23,7 +25,7 @@ public class CategoryService {
 
     public void save(Category category) {
         if (StringUtils.isEmpty(category.getName())) {
-            throw new OrganizerException("Пожалуйста, введите имя категории.");
+            throw new OrganizerException(ADD_CATEGORY_NAME);
         }
         categoryRepository.save(category);
     }
@@ -31,7 +33,7 @@ public class CategoryService {
 
     public void delete(int id) {
         categoryRepository.deleteById(id);
-        Dialog.DialogBuilder.builder().title("Выполнено успешно.").message("Удаление категории выполнено успешно.").build().show();
+        Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(REMOVE_CATEGORY).build().show();
     }
 
     public Category findById(int id) {
