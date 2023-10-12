@@ -507,3 +507,7 @@ Customize the selected cell
 .scroll-pane .scroll-bar:horizontal .thumb {
     -fx-background-color:  linear-gradient(to right, primary, secondary);
 }
+
+.separator {
+    -fx-background: primary;
+}

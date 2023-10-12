@@ -13,4 +13,7 @@ public interface CategoryRepository extends BaseRepository<Category, Integer> {
     @Transactional
     @Query(value = "BACKUP TO ?1", nativeQuery = true)
     int backupDB(String path);
+
+	@Query("select c from Category c where c.name like ?1")
+	Category findByName(String name);
 }

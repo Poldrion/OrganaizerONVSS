@@ -29,6 +29,7 @@ import java.util.HashMap;
 import static organizer.utils.Constants.*;
 import static organizer.utils.ExcelUtils.getFileChooser;
 import static organizer.utils.ExcelUtils.unloadBPToExcel;
+import static organizer.utils.FormatUtils.formatNumber;
 
 @Controller
 public class BusinessPlanController {
@@ -41,12 +42,7 @@ public class BusinessPlanController {
 	@FXML
 	private TableView<Category> businessPlanTableView;
 	@FXML
-	private TableColumn<Category, String> categoryCol,
-			firstYearCostCol, firstYearCountCol, firstYearPriceCol,
-			secondYearCostCol, secondYearCountCol, secondYearPriceCol,
-			thirdYearCostCol, thirdYearCountCol, thirdYearPriceCol,
-			forthYearCostCol, forthYearCountCol, forthYearPriceCol,
-			fifthYearCostCol, fifthYearCountCol, fifthYearPriceCol;
+	private TableColumn<Category, String> categoryCol, firstYearCostCol, firstYearCountCol, firstYearPriceCol, secondYearCostCol, secondYearCountCol, secondYearPriceCol, thirdYearCostCol, thirdYearCountCol, thirdYearPriceCol, forthYearCostCol, forthYearCountCol, forthYearPriceCol, fifthYearCostCol, fifthYearCountCol, fifthYearPriceCol;
 
 	@FXML
 	private Label titleFirstYear, titleSecondYear, titleThirdYear, titleForthYear, titleFifthYear;
@@ -70,7 +66,7 @@ public class BusinessPlanController {
 
 	@FXML
 	private void add() {
-		BusinessPlanEdit.addNewBPGeneral(this::saveBPGeneral);
+		BusinessPlanEdit.addNewBPGeneral(this::saveBPGeneral, categoryService);
 		reload();
 	}
 
@@ -96,7 +92,7 @@ public class BusinessPlanController {
 	private void edit() {
 		BusinessPlan businessPlan = version.getSelectionModel().getSelectedItem();
 		if (businessPlan != null) {
-			BusinessPlanEdit.editBPGeneral(businessPlan, this::saveBPGeneral);
+			BusinessPlanEdit.editBPGeneral(businessPlan, this::saveBPGeneral, categoryService);
 		}
 		reload();
 	}
@@ -107,75 +103,97 @@ public class BusinessPlanController {
 		categoryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 
 		if (version.getValue() != null) {
-			//TODO - релизовать сортировку по аналогии с влкдакой детализации
-			firstYearCountCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFirstYearCount())));
-			firstYearCountCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			firstYearCountCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+			firstYearCountCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getFirstYearCount().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFirstYearCount()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			firstYearCostCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getFirstYearCost().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFirstYearCost()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			firstYearPriceCol.setCellValueFactory(cellData ->
+					new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(), version.getValue().getFirstYearCost(), version.getValue().getFirstYearCount())));
 
-			firstYearCostCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFirstYearCost())));
-			firstYearCostCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			firstYearCostCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+			secondYearCountCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getSecondYearCount().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getSecondYearCount()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			secondYearCostCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getSecondYearCost().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getSecondYearCost()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			secondYearPriceCol.setCellValueFactory(cellData ->
+					new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(), version.getValue().getSecondYearCost(), version.getValue().getSecondYearCount())));
 
-			firstYearPriceCol.setCellValueFactory(cellData -> new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(),
-					version.getValue().getFirstYearCost(), version.getValue().getFirstYearCount())));
-			firstYearPriceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			firstYearPriceCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+			thirdYearCountCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getThirdYearCount().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getThirdYearCount()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			thirdYearCostCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getThirdYearCost().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getThirdYearCost()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			thirdYearPriceCol.setCellValueFactory(cellData ->
+					new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(), version.getValue().getThirdYearCost(), version.getValue().getThirdYearCount())));
 
-			secondYearCountCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getSecondYearCount())));
-			secondYearCountCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			secondYearCountCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+			forthYearCountCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getForthYearCount().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getForthYearCount()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			forthYearCostCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getForthYearCost().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getForthYearCost()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			forthYearPriceCol.setCellValueFactory(cellData ->
+					new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(), version.getValue().getForthYearCost(), version.getValue().getForthYearCount())));
 
-			secondYearCostCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getSecondYearCost())));
-			secondYearCostCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			secondYearCostCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+			fifthYearCountCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getFifthYearCount().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFifthYearCount()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			fifthYearCostCol.setCellValueFactory(cellData -> {
+				if (version.getValue().getFifthYearCost().get(cellData.getValue().getName()) != null)
+					return new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFifthYearCost()));
+				else return new SimpleStringProperty(formatNumber(BigDecimal.ZERO));
+			});
+			fifthYearPriceCol.setCellValueFactory(cellData ->
+					new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(), version.getValue().getFifthYearCost(), version.getValue().getFifthYearCount())));
 
-			secondYearPriceCol.setCellValueFactory(cellData -> new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(),
-					version.getValue().getSecondYearCost(), version.getValue().getSecondYearCount())));
-			secondYearPriceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			secondYearPriceCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			thirdYearCountCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getThirdYearCount())));
-			thirdYearCountCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			thirdYearCountCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			thirdYearCostCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getThirdYearCost())));
-			thirdYearCostCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			thirdYearCostCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			thirdYearPriceCol.setCellValueFactory(cellData -> new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(),
-					version.getValue().getThirdYearCost(), version.getValue().getThirdYearCount())));
-			thirdYearPriceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			thirdYearPriceCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			forthYearCountCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getForthYearCount())));
-			forthYearCountCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			forthYearCountCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			forthYearCostCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getForthYearCost())));
-			forthYearCostCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			forthYearCostCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			forthYearPriceCol.setCellValueFactory(cellData -> new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(),
-					version.getValue().getForthYearCost(), version.getValue().getForthYearCount())));
-			forthYearPriceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			forthYearPriceCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			fifthYearCountCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFifthYearCount())));
-			fifthYearCountCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			fifthYearCountCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			fifthYearCostCol.setCellValueFactory(cellData -> new SimpleStringProperty(getDataFromHashMap(cellData.getValue(), version.getValue().getFifthYearCost())));
-			fifthYearCostCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			fifthYearCostCol.setComparator(Comparator.comparing(FormatUtils::parseNumber));
-
-			fifthYearPriceCol.setCellValueFactory(cellData -> new SimpleStringProperty(getPriceFromDataHashMap(cellData.getValue(),
-					version.getValue().getFifthYearCost(), version.getValue().getFifthYearCount())));
-			fifthYearPriceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
-			fifthYearPriceCol.setComparator(Comparator.comparing(FormatUtils::parseNumberOrdering));
+			settingStyleForTableColumn(firstYearCountCol, firstYearCostCol, firstYearPriceCol, secondYearCountCol,
+					secondYearCostCol, secondYearPriceCol, thirdYearCountCol, thirdYearCostCol, thirdYearPriceCol,
+					forthYearCountCol, forthYearCostCol, forthYearPriceCol, fifthYearCountCol, fifthYearCostCol,
+					fifthYearPriceCol);
+			settingComparatorForTableColumn(firstYearCountCol, firstYearCostCol, firstYearPriceCol, secondYearCountCol,
+					secondYearCostCol, secondYearPriceCol, thirdYearCountCol, thirdYearCostCol, thirdYearPriceCol,
+					forthYearCountCol, forthYearCostCol, forthYearPriceCol, fifthYearCountCol, fifthYearCostCol,
+					fifthYearPriceCol);
 		}
 		businessPlanTableView.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
 
 		TableviewElementUtils.setContextMenuForTable(businessPlanTableView);
+	}
+
+	@SafeVarargs
+	private void settingStyleForTableColumn(TableColumn<Category, String>... columns) {
+		for (TableColumn<Category, String> tableColumn : columns) {
+			tableColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
+		}
+	}
+
+	@SafeVarargs
+	private void settingComparatorForTableColumn(TableColumn<Category, String>... columns) {
+		for (TableColumn<Category, String> tableColumn : columns) {
+			tableColumn.setComparator(Comparator.comparing(FormatUtils::parseNumber));
+		}
 	}
 
 	private void settingComboBox() {
@@ -202,15 +220,15 @@ public class BusinessPlanController {
 
 	private String getDataFromHashMap(Category category, HashMap<String, BigDecimal> map) {
 		BigDecimal result = map.get(category.getName());
-		return FormatUtils.formatNumber(result);
+		return formatNumber(result);
 	}
 
 	private String getPriceFromDataHashMap(Category category, HashMap<String, BigDecimal> cost, HashMap<String, BigDecimal> count) {
 		try {
 			BigDecimal result = cost.get(category.getName()).divide(count.get(category.getName()), 2, RoundingMode.HALF_UP);
-			return FormatUtils.formatNumber(result);
-		} catch (ArithmeticException e) {
-			return FormatUtils.formatNumber(BigDecimal.ZERO);
+			return formatNumber(result);
+		} catch (ArithmeticException | NullPointerException e) {
+			return formatNumber(BigDecimal.ZERO);
 		}
 	}
 
@@ -219,7 +237,7 @@ public class BusinessPlanController {
 		for (BigDecimal element : cost.values()) {
 			result = result.add(element);
 		}
-		title.setText(FormatUtils.formatNumber(result) + CURRENCY_WITH_TAX_SUFFIX);
+		title.setText(formatNumber(result) + CURRENCY_WITH_TAX_SUFFIX);
 	}
 
 	private void settingsBPTitles() {

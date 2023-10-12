@@ -411,7 +411,7 @@ public class ExcelUtils {
 			Sheet sheet = wb.getSheet(NAME_SHEET_FOR_FILE_TEMPLATE);
 
 			CellStyle styleBorderAllAround = getStyleBorderAllAround(wb);
-//			CellStyle styleBorderAllAroundDate = getStyleBorderAllAroundAndDateFormat(wb, PATTERN_FOR_SHORT_DATE);
+			CellStyle styleBorderAllAroundDate = getStyleBorderAllAroundAndDateFormat(wb, PATTERN_FOR_SHORT_DATE);
 
 			List<Nomenclature> allNomenclatures = service.findAll();
 
@@ -1446,41 +1446,22 @@ public class ExcelUtils {
 	private static CellStyle getStyleBorderAllAroundAndNumberFormat(@NotNull XSSFWorkbook wb, String format) {
 		CellStyle styleBorderAllAroundPercent = wb.createCellStyle();
 		styleBorderAllAroundPercent.setDataFormat(wb.createDataFormat().getFormat(format));
-		styleBorderAllAroundPercent.setBorderBottom(BorderStyle.THIN);
-		styleBorderAllAroundPercent.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-		styleBorderAllAroundPercent.setBorderLeft(BorderStyle.THIN);
-		styleBorderAllAroundPercent.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-		styleBorderAllAroundPercent.setBorderRight(BorderStyle.THIN);
-		styleBorderAllAroundPercent.setRightBorderColor(IndexedColors.BLACK.getIndex());
-		styleBorderAllAroundPercent.setBorderTop(BorderStyle.THIN);
-		styleBorderAllAroundPercent.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		setAllAroundBorderStyle(styleBorderAllAroundPercent);
 		return styleBorderAllAroundPercent;
 	}
 
+
+
 	private static CellStyle getStyleBorderAllAround(@NotNull XSSFWorkbook wb) {
 		CellStyle styleBorderAllAround = wb.createCellStyle();
-		styleBorderAllAround.setBorderBottom(BorderStyle.THIN);
-		styleBorderAllAround.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-		styleBorderAllAround.setBorderLeft(BorderStyle.THIN);
-		styleBorderAllAround.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-		styleBorderAllAround.setBorderRight(BorderStyle.THIN);
-		styleBorderAllAround.setRightBorderColor(IndexedColors.BLACK.getIndex());
-		styleBorderAllAround.setBorderTop(BorderStyle.THIN);
-		styleBorderAllAround.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		setAllAroundBorderStyle(styleBorderAllAround);
 		return styleBorderAllAround;
 	}
 
 	private static CellStyle getStyleCenterAlignmentWithBorder(@NotNull XSSFWorkbook wb) {
 		CellStyle centerAlignment = wb.createCellStyle();
 		centerAlignment.setAlignment(HorizontalAlignment.CENTER);
-		centerAlignment.setBorderBottom(BorderStyle.THIN);
-		centerAlignment.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-		centerAlignment.setBorderLeft(BorderStyle.THIN);
-		centerAlignment.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-		centerAlignment.setBorderRight(BorderStyle.THIN);
-		centerAlignment.setRightBorderColor(IndexedColors.BLACK.getIndex());
-		centerAlignment.setBorderTop(BorderStyle.THIN);
-		centerAlignment.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		setAllAroundBorderStyle(centerAlignment);
 		return centerAlignment;
 	}
 
@@ -1492,6 +1473,7 @@ public class ExcelUtils {
 
 	private static  CellStyle getStyleBorderAllAroundAndDateFormat(@NotNull XSSFWorkbook wb, String format) {
 		CellStyle styleBorderAllAroundDate = wb.createCellStyle();
+		setAllAroundBorderStyle(styleBorderAllAroundDate);
 		CreationHelper createHelper = wb.getCreationHelper();
 		styleBorderAllAroundDate.setDataFormat(createHelper.createDataFormat().getFormat(format));
 		return styleBorderAllAroundDate;
@@ -1504,5 +1486,16 @@ public class ExcelUtils {
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Файл Excel 2007+", "*.xlsx"));
 		return fileChooser;
+	}
+
+	private static void setAllAroundBorderStyle(CellStyle cellStyle) {
+		cellStyle.setBorderBottom(BorderStyle.THIN);
+		cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyle.setBorderLeft(BorderStyle.THIN);
+		cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyle.setBorderRight(BorderStyle.THIN);
+		cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyle.setBorderTop(BorderStyle.THIN);
+		cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
 	}
 }

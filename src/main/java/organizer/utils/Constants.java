@@ -3,6 +3,8 @@ package organizer.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import static organizer.utils.ListUtils.getLeasingCategories;
+
 public class Constants {
 	public static final String PATTERN_FOR_SHORT_DATE = "dd.MM.yyyy";
 	public static final String PATTERN_FOR_NUMBERS = "#,##0.00";
@@ -18,16 +20,7 @@ public class Constants {
 
 	public static final String ALL_CATEGORIES = "Все категории";
 
-	public static final List<String> CATEGORIES = Arrays.asList(ALL_CATEGORIES, "УЭЦН полнокомплектные импортные", "УЭЦН полнокомплектные отечественные",
-			"АКИВ", "ПЭД", "Газосепараторы и диспергаторы", "Полнокомплектные УЭВН", "Система погружной телеметрии (ТМС)",
-			"Трансформатор ТМПН", "СУ с ЧРП", "Станция управления", "Кабель погружной для УЭЦН до 160 градусов",
-			"Кабель погружной для УЭЦН до 230 градусов", "Термоизолированная НКТ", "Стеклопластиковая НКТ",
-			"Фонтанная арматура (в т.ч. АФК с КГ)", "Насосно-компрессорные трубы", "Штанговые насосы",
-			"Насосные штанги", "Защита ЭЦН от мех.примесей ШУМ, ЖНШ, МВФ", "УДХ для ингибирования скважин",
-			"Протекторы для защиты кабеля", "Протектолайзеры", "Пакера и компановки ОРЗ", "Новая техника",
-			"Оборудование для ОРЭ", "Прочее");
-	public static final List<String> LEASING_CATEGORIES = Arrays.asList("УЭЦН полнокомплектные импортные", "УЭЦН полнокомплектные отечественные",
-			"АКИВ", "Трансформатор ТМПН", "СУ с ЧРП", "Станция управления");
+	public static List<String> LEASING_CATEGORIES = getLeasingCategories();
 
 	public static final String JANUARY = "Январь";
 	public static final String FEBRUARY = "Февраль";

@@ -6,7 +6,10 @@ import organizer.model.services.CategoryService;
 import javax.persistence.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Data
@@ -45,14 +48,18 @@ public class BusinessPlan {
     public BusinessPlan() {
         List<String> categories = new ArrayList<>();
         Properties categoryProperties = new Properties();
+        InputStream stream;
+        InputStreamReader reader;
         try {
-            FileInputStream fis =  new FileInputStream("properties/categories.properties");
-            categoryProperties.load(fis);
+            stream = new FileInputStream("properties/categories.properties");
+            reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+            categoryProperties.load(reader);
             int counts = Integer.parseInt(categoryProperties.getProperty("counts"));
             for (int i = 0; i < counts; i++) {
                 categories.add(categoryProperties.getProperty("category" + i));
             }
-            fis.close();
+            stream.close();
+            reader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

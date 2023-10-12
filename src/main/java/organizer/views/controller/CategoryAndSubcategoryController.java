@@ -17,10 +17,8 @@ import organizer.views.controller.common.Dialog;
 import organizer.views.controller.popups.CategoryEdit;
 import organizer.views.controller.popups.SubcategoryEdit;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Properties;
 
@@ -87,6 +85,11 @@ public class CategoryAndSubcategoryController {
 	@FXML
 	private void deleteCategory() {
 		categoryService.delete(categoryContainer.getSelectionModel().getSelectedItem().getId());
+		try {
+			saveCategoryList();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		reload();
 	}
 
@@ -136,18 +139,31 @@ public class CategoryAndSubcategoryController {
 	private void saveCategoryList() throws IOException {
 		List<Category> categoryList = categoryService.findAll();
 		Properties properties = new Properties();
-		FileInputStream fis = new FileInputStream("properties/categories.properties");
-		properties.load(fis);
+		InputStream fis = new FileInputStream("properties/categories.properties");
+		InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8);
+		properties.load(reader);
+		int oldCount = Integer.parseInt(properties.getProperty("counts"));
 
 		properties.setProperty("counts", String.valueOf(categoryList.size()));
+		int newCount = Integer.parseInt(properties.getProperty("counts"));
+
+		if (newCount < oldCount) {
+			for (int i = 0; i < oldCount; i++) {
+				properties.remove("category" + i);
+			}
+		}
+
 		for (Category c : categoryList) {
 			properties.setProperty("category" + categoryList.indexOf(c), c.getName());
 		}
-		FileOutputStream fos = new FileOutputStream("properties/categories.properties");
-		properties.store(fos, null);
+		OutputStream fos = new FileOutputStream("properties/categories.properties");
+		OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+		properties.store(writer, null);
 
 		fis.close();
+		reader.close();
 		fos.close();
+		writer.close();
 	}
 
 	@FXML
