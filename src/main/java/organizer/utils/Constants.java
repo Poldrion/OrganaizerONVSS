@@ -13,6 +13,9 @@ public class Constants {
 																  "Не найдена сл. номенклатура:%n" +
 																  "номер заявки - %s, позиция - %s, код КСМ - %s, наименование МТР - %s, сегмент запаса - %s, ЕИ - %s, кол-во - %s, цена(руб. без НДС) - %s, дата поставки - %s, требуется ШМР/ПНР - %s, лизинг - %s, примечение - %s.%n"
 																  + "%n";
+	public static final String STRING_FORMAT_FOR_LOGGING_ERRORS_ORDERING_RESULT = "Строка excel №%s не загружена!%n" +
+																				  "Не найдена сл. заявка:%n" +
+																				  "номер заявки - %s, позиция - %s, " + "%n";
 	public static final String STRING_FORMAT_FOR_NUMBER_FORMAT_EXCEPTION = "Неверный формат числа %s";
 	public static final String STRING_FORMAT_FOR_REMOVE_UNIT = "Единица измерения с ID %s удалена.";
 	public static final String STRING_FORMAT_FOR_UNFOUNDED_UNIT = "Единица измерения с ID %s не найдена.";
@@ -49,6 +52,10 @@ public class Constants {
 	public static final String INFORMATION_NOT_FOUND = "Нет информации";
 	public static final String CLOSE_TITLE = "ЗАКРЫТЬ";
 
+	public static final String WITH_TAX = "с НДС";
+	public static final String WITHOUT_TAX = "без НДС";
+
+
 	public static final String YES = "Да";
 	public static final String NO = "Нет";
 	public static final String UNDEFINED_EQUIPMENT_GROUP = "Неопределенная группа оборудования";
@@ -77,6 +84,7 @@ public class Constants {
 	public static final String REMOVE_CODE_KSM = "Удаление кода КСМ выполнено успешно.";
 	public static final String REMOVE_NOMENCLATURE = "Удаление номенклатуры выполнено успешно.";
 	public static final String REMOVE_ORDERING = "Удаление заказа выполнено успешно.";
+	public static final String REMOVE_ORDERING_RESULT = "Удаление результата заказа на поставку выполнено успешно.";
 	public static final String REMOVE_SUBCATEGORY = "Удаление подкатегории выполнено успешно.";
 	public static final String REMOVE_TECHNICAL_REQUIREMENT = "Удаление карточки ОЛ/ТТ выполнено успешно.";
 	public static final String FORMATION_TEMPLATES_COMPLETED_SUCCESSFULLY = "Формирование шаблонов загрузки выполнено успешно.";
@@ -149,9 +157,13 @@ public class Constants {
 	public static final String FILENAME_FOR_UNLOAD_BUSINESS_PLANS = "\\Бизнес-план";
 	public static final String FILENAME_FOR_UNLOAD_ORDERINGS = "\\Заявки ОНВСС на ";
 	public static final String FILENAME_FOR_ERROR_LOG = "errorLog\\Ошибки загрузки от ";
+	public static final String FILENAME_FOR_ORDERING_RESULT_ERROR_LOG = "errorLog\\Ошибки загрузки результатов от ";
 	public static final String FILENAME_FOR_TEMPLATE_SAP = "\\Шаблон загрузки на ";
 	public static final String FILENAME_SUFFIX_YEAR_FOR_TEMPLATE_SAP = " год от ";
 	public static final String FILENAME_SUFFIX_ACCESSORY_FOR_TEMPLATE_SAP = " для ";
+	public static final String FILENAME_FOR_UNLOAD_DETAIL_ANALYTICS = "\\Аналитика по заявкам ОНВСС на ";
+	public static final String FILENAME_FOR_UNLOAD_SUM_ANALYTICS = "\\Сводная аналитика по заявкам ОНВСС на ";
+	public static final String FILENAME_FOR_UNLOAD_ORDERING_RESULTS = "\\Результаты закупок";
 
 	// Константы для формирования шаблона заявки перед загрузкой в SAP
 	public static final String TYPE_OF_ORDERING_ID = "ZMTR";
@@ -191,6 +203,7 @@ public class Constants {
 	public static final String SUBCATEGORIES_UPLOAD_TITLE_SUFFIX = "подкатегорий";
 	public static final String CODES_KSM_UPLOAD_TITLE_SUFFIX = "кодов КСМ";
 	public static final String ORDERINGS_UPLOAD_TITLE_SUFFIX = "заявок";
+	public static final String RESULTS_ORDERINGS_UPLOAD_TITLE_SUFFIX = "результатов заявок";
 	public static final String NOMENCLATURES_UPLOAD_TITLE_SUFFIX = "номенклатуры";
 	public static final String TECHNICAL_REQUIREMENTS_UPLOAD_TITLE_SUFFIX = "ОЛ/ТТ";
 }

@@ -24,8 +24,6 @@ Customize the right button background color
 .date-picker .arrow-button .arrow {
     -fx-background-color: secondary-light;
 }
-
-
 /*-----------------------------------------
 Customize left and right arrow
 -------------------------------------------*/
@@ -48,7 +46,6 @@ Customize left and right arrow
     -fx-font-size: 20px;
     -fx-text-fill: white;
 }
-
 /*-----------------------------------------
 Customize popup content
 -------------------------------------------*/
@@ -126,6 +123,7 @@ Customize the selected cell
     -fx-background-color: secondary-light;
     -fx-border-style: solid;
     -fx-border-color: primary;
+    -fx-border-radius: 5px;
 }
 
 .button:hover, .button:focused {
@@ -142,36 +140,30 @@ Customize the selected cell
     -fx-padding: 10 0 0 0;
     -fx-background-color: primary;
 }
-
 .side-bar-menu {
     -fx-alignment: center;
     -fx-spacing: 5px;
     -fx-pref-height: 80px;
     -fx-pref-width: 100px;
     -fx-min-width: 100px;
+    -fx-background-radius: 20 0 0 20;
 }
-
 .side-bar-menu:hover {
     -fx-background-color: secondary;
 }
-
-
 .side-bar-menu .label, .side-bar-menu SVGPath {
     -fx-fill: white;
     -fx-text-fill: white;
     -fx-wrap-text: true;
     -fx-text-alignment: center;
 }
-
 .side-bar-menu:hover .label, .side-bar-menu:hover SVGPath {
     -fx-fill: primary;
     -fx-text-fill: primary;
 }
-
 .side-bar-menu.active {
     -fx-background-color: secondary;
 }
-
 .side-bar-menu.active .label, .side-bar-menu.active SVGPath{
     -fx-fill: primary;
     -fx-text-fill: primary;
@@ -341,7 +333,6 @@ Customize the selected cell
     -fx-background-color:  linear-gradient(to right, primary, secondary);
 }
 
-
 /*---------------------------------------------------*/
 
 .padding-5 {
@@ -396,7 +387,6 @@ Customize the selected cell
 .up-chose-bar-container TextField{
     -fx-pref-width: 400px;
 }
-
 
 .up-chose-bar {
     -fx-pref-height: 35px;
@@ -511,3 +501,34 @@ Customize the selected cell
 .separator {
     -fx-background: primary;
 }
+/* ------------------- настройка tab-pane------------------------------- */
+.tab-pane {
+    -fx-background: primary-light;
+    -fx-region-border-color: transparent;
+
+}
+.tab-pane .tab {
+    -fx-background-color: secondary-light;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0 0 0 0;
+
+}
+.tab-pane .tab:selected {
+    -fx-background-color: secondary;
+    -fx-background-insets: 0 0 0 0;
+}
+.tab-header-area .tab-header-background {
+ 	-fx-background-insets: 0 0 0 0;
+}
+.tab-pane:focused .tab-header-area .headers-region .tab:selected .focus-indicator {
+ 	-fx-border-width: 0;
+	-fx-border-insets: 0 0 0 0;
+	-fx-border-radius: 0;
+
+
+}
+/* ----------------------------------------------------------------------- */
+
+
+
+

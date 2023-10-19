@@ -21,4 +21,7 @@ public interface OrderingRepository extends BaseRepository<Ordering, Long>, JpaS
     @Transactional
     @Query(value = "BACKUP TO ?1", nativeQuery = true)
     int backupDB(String path);
+
+    @Query("select o from Ordering o where upper(o.number) = upper(?1) and upper(o.position) = upper(?2)")
+    Ordering findByNumberAndPosition(@NonNull String number, @NonNull String position);
 }

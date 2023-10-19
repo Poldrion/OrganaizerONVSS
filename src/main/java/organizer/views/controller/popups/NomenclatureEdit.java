@@ -24,21 +24,14 @@ import static organizer.utils.Constants.*;
 
 @Controller
 public class NomenclatureEdit {
-
     @FXML
-    private TextField codeKSM;
+    private TextField codeKSM, technicalRequirement, searchByKSMTF, searchByTRTF;
     @FXML
-    private TextField technicalRequirement;
-    @FXML
-    private Label title;
-    @FXML
-    private Label message;
+    private Label title, message;
     @FXML
     private ComboBox<Subcategory> subcategory;
     @FXML
     private ComboBox<Category> category;
-    @FXML
-    private TextField searchByKSMTF, searchByTRTF;
     @FXML
     private TableView<CodeKSM> codeKSMTableView;
     @FXML
@@ -48,7 +41,6 @@ public class NomenclatureEdit {
     @FXML
     private TableColumn<TechnicalRequirement, String> TRIdCol, TRNameCol;
 
-
     private Consumer<Nomenclature> saveHandler;
     private Nomenclature nomenclature;
     private Supplier<List<CodeKSM>> supplierCodeKSM;
@@ -56,11 +48,9 @@ public class NomenclatureEdit {
     private CodeKSMService codeKSMService;
     private TechnicalRequirementService technicalRequirementService;
 
-
     public static void addNewObject(Consumer<Nomenclature> saveHandler, Supplier<List<Category>> supplierCategory, Supplier<List<CodeKSM>> supplierCodeKSM, Supplier<List<TechnicalRequirement>> supplierTechnicalRequirement, CodeKSMService codeKSMService, TechnicalRequirementService technicalRequirementService) {
         edit(null, saveHandler, supplierCategory, supplierCodeKSM, supplierTechnicalRequirement, codeKSMService, technicalRequirementService);
     }
-
 
     public static void edit(Nomenclature nomenclature, Consumer<Nomenclature> saveHandler, Supplier<List<Category>> supplierCategory, Supplier<List<CodeKSM>> supplierCodeKSM, Supplier<List<TechnicalRequirement>> supplierTechnicalRequirement, CodeKSMService codeKSMService, TechnicalRequirementService technicalRequirementService) {
         try {
@@ -105,7 +95,6 @@ public class NomenclatureEdit {
             subcategory.getSelectionModel().selectFirst();
         });
 
-
         if (nomenclature == null) {
             this.nomenclature = new Nomenclature();
             this.title.setText(ADD_NEW_NOMENCLATURE);
@@ -120,13 +109,19 @@ public class NomenclatureEdit {
     }
 
     @FXML
+    private void initialize() {
+        settingsCodeKSMTableView();
+        settingsTRTableView();
+        settingListenerForElements();
+    }
+
+    @FXML
     private void close() {
         codeKSM.getScene().getWindow().hide();
     }
 
     @FXML
     private void save() {
-
         try {
             CodeKSM tempCodeKSM = null;
             TechnicalRequirement tempTechnicalRequirement = null;
@@ -174,33 +169,29 @@ public class NomenclatureEdit {
         }
     }
 
-    @FXML
-    private void initialize() {
-        settingsCodeKSMTableView();
-        settingsTRTableView();
+    private void settingListenerForElements() {
         searchByKSMTF.textProperty().addListener((options, oldValue, newValue) -> reloadCodeKSM());
         searchByTRTF.textProperty().addListener((options, oldValue, newValue) -> reloadTR());
-
-    }
-
-    private void settingsCodeKSMTableView() {
-        codeKSMIdCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
-        codeKSMNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         codeKSMTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 this.codeKSM.setText(this.codeKSMTableView.getSelectionModel().getSelectedItem().getId());
             }
         });
-    }
-
-    private void settingsTRTableView() {
-        TRIdCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
-        TRNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         TRTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 this.technicalRequirement.setText(this.TRTableView.getSelectionModel().getSelectedItem().getId());
             }
         });
+    }
+
+    private void settingsCodeKSMTableView() {
+        codeKSMIdCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
+        codeKSMNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+    }
+
+    private void settingsTRTableView() {
+        TRIdCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
+        TRNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
     }
 
     private void reloadCodeKSM() {

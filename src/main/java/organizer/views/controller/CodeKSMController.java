@@ -22,7 +22,6 @@ import static organizer.utils.ExcelUtils.unloadCodeKSMToExcel;
 
 @Controller
 public class CodeKSMController {
-
     @Autowired
     private CodeKSMService codeKSMService;
 
@@ -31,31 +30,16 @@ public class CodeKSMController {
     @FXML
     private TextField search;
 
-
     @FXML
     private void initialize() {
         reload();
-        search.textProperty().addListener((options, oldValue, newValue) -> {
-            codeKSMContainer.getItems().clear();
-            codeKSMContainer.getItems().addAll(codeKSMService.findByAllColumns(newValue));
-        });
+        settingListenerForElements();
         codeKSMContainer.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
-    }
-
-    private void reload() {
-        codeKSMContainer.getItems().clear();
-        codeKSMContainer.getItems().addAll(codeKSMService.findAll());
     }
 
     @FXML
     private void addNewCodeKSM() {
         CodeKSMEdit.addNewCodeKSM(this::saveKSM);
-        reload();
-
-    }
-
-    private void saveKSM(CodeKSM codeKSM) {
-        codeKSMService.save(codeKSM);
         reload();
     }
 
@@ -63,7 +47,6 @@ public class CodeKSMController {
     private void deleteCodeKSM() {
         codeKSMService.delete(codeKSMContainer.getSelectionModel().getSelectedItem().getId());
         reload();
-
     }
 
     @FXML
@@ -101,6 +84,23 @@ public class CodeKSMController {
         } catch (NullPointerException e) {
             Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
         }
+    }
+
+    private void reload() {
+        codeKSMContainer.getItems().clear();
+        codeKSMContainer.getItems().addAll(codeKSMService.findAll());
+    }
+
+    private void saveKSM(CodeKSM codeKSM) {
+        codeKSMService.save(codeKSM);
+        reload();
+    }
+
+    private void settingListenerForElements() {
+        search.textProperty().addListener((options, oldValue, newValue) -> {
+            codeKSMContainer.getItems().clear();
+            codeKSMContainer.getItems().addAll(codeKSMService.findByAllColumns(newValue));
+        });
     }
 
 }

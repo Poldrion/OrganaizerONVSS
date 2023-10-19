@@ -27,7 +27,6 @@ import static organizer.utils.ExcelUtils.unloadNomenclatureToExcel;
 
 @Controller
 public class NomenclatureController {
-
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -48,38 +47,16 @@ public class NomenclatureController {
     @FXML
     private TextField search;
     @FXML
-    private TableColumn<Nomenclature, String> codeKSMId;
-    @FXML
-    private TableColumn<Nomenclature, String> codeKSMName;
-    @FXML
-    private TableColumn<Nomenclature, String> technicalRequirementId;
-    @FXML
-    private TableColumn<Nomenclature, String> technicalRequirementName;
+    private TableColumn<Nomenclature, String> codeKSMId, codeKSMName, technicalRequirementId, technicalRequirementName;
 
     private Subcategory currentSubcategory;
 
-
     @FXML
     private void initialize() {
-        category.getItems().clear();
-        category.getItems().addAll(categoryService.findAll());
-        category.getSelectionModel().selectFirst();
+        initCategoriesComboBox();
         searchSubcategory(category.getSelectionModel().getSelectedItem());
-        codeKSMId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodeKSM().getId()));
-        codeKSMName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodeKSM().getName()));
-        technicalRequirementId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTechnicalRequirement().getId()));
-        technicalRequirementName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTechnicalRequirement().getName()));
-
-        category.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> searchSubcategory(newValue));
-
-        subcategoryTableView.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            currentSubcategory = newValue;
-            reload();
-        });
-
-        search.textProperty().addListener((options, oldValue, newValue) -> {
-            reload();
-        });
+        settingTableView();
+        settingListenerForElements();
 
         subcategoryTableView.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
         nomenclatureTableView.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
@@ -118,6 +95,58 @@ public class NomenclatureController {
         reload();
     }
 
+    @FXML
+    private void unloadingToExcel() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+
+        try {
+            File resultsFolder = directoryChooser.showDialog(nomenclatureTableView.getScene().getWindow());
+            unloadNomenclatureToExcel(nomenclatureService, resultsFolder.toString());
+        } catch (NullPointerException e) {
+            Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+        }
+    }
+
+    @FXML
+    private void uploadNomenclature() {
+        FileChooser fileChooser = getFileChooser(NOMENCLATURES_UPLOAD_TITLE_SUFFIX);
+        try {
+            File file = fileChooser.showOpenDialog(nomenclatureTableView.getScene().getWindow());
+            ExcelUtils.uploadNomenclatureFromExcel(file, nomenclatureService, codeKSMService, technicalRequirementService, subcategoryService);
+            reload();
+            Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
+        } catch (NullPointerException e) {
+            Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
+        }
+    }
+
+    private void initCategoriesComboBox() {
+        category.getItems().clear();
+        category.getItems().addAll(categoryService.findAll());
+        category.getSelectionModel().selectFirst();
+    }
+
+    private void settingListenerForElements() {
+        category.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> searchSubcategory(newValue));
+
+        subcategoryTableView.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            currentSubcategory = newValue;
+            reload();
+        });
+
+        search.textProperty().addListener((options, oldValue, newValue) -> {
+            reload();
+        });
+    }
+
+    private void settingTableView() {
+        codeKSMId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodeKSM().getId()));
+        codeKSMName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodeKSM().getName()));
+        technicalRequirementId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTechnicalRequirement().getId()));
+        technicalRequirementName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTechnicalRequirement().getName()));
+    }
 
     private void searchSubcategory(Category category) {
         subcategoryTableView.getItems().clear();
@@ -148,33 +177,6 @@ public class NomenclatureController {
         nomenclatureTableView.getItems().clear();
         subcategoryTableView.getSelectionModel().select(currentSubcategory);
         searchNomenclature(currentSubcategory);
-    }
-
-    @FXML
-    private void unloadingToExcel() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
-        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-
-        try {
-            File resultsFolder = directoryChooser.showDialog(nomenclatureTableView.getScene().getWindow());
-            unloadNomenclatureToExcel(nomenclatureService, resultsFolder.toString());
-        } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
-        }
-    }
-
-    @FXML
-    private void uploadNomenclature() {
-        FileChooser fileChooser = getFileChooser(NOMENCLATURES_UPLOAD_TITLE_SUFFIX);
-        try {
-            File file = fileChooser.showOpenDialog(nomenclatureTableView.getScene().getWindow());
-            ExcelUtils.uploadNomenclatureFromExcel(file, nomenclatureService, codeKSMService, technicalRequirementService, subcategoryService);
-            reload();
-            Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
-        } catch (NullPointerException e) {
-            Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
-        }
     }
 
 

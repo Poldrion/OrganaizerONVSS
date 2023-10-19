@@ -38,7 +38,6 @@ import static organizer.utils.FormatUtils.parseNumber;
 
 @Controller
 public class MainController {
-
 	@Autowired
 	private OrderingService orderingService;
 	@Autowired
@@ -46,61 +45,62 @@ public class MainController {
 	@Autowired
 	private ComparisonService comparisonService;
 
-	private List<Ordering> orderingStorage;
-	private Comparison comparison;
-
 	@FXML
-	private ComboBox<String> year;
+	private ComboBox<String> year, period;
 	@FXML
-	private ComboBox<String> period;
-	@FXML
-	private Label businessPlanGeneral, businessPlanLeasing, businessPlanWithoutLeasing;
-	@FXML
-	private Label businessPlanGeneralPercent, businessPlanLeasingPercent, businessPlanWithoutLeasingPercent;
-	@FXML
-	private Label factGeneral, factLeasing, factWithoutLeasing;
-	@FXML
-	private Label remainsGeneral, remainsLeasing, remainsWithoutLeasing;
-	@FXML
-	private Label offsetGeneral, offsetLeasing, offsetWithoutLeasing;
+	private Label businessPlanGeneral, businessPlanLeasing, businessPlanWithoutLeasing,
+	businessPlanGeneralPercent, businessPlanLeasingPercent, businessPlanWithoutLeasingPercent,
+	factGeneral, factLeasing, factWithoutLeasing,
+	remainsGeneral, remainsLeasing, remainsWithoutLeasing,
+	offsetGeneral, offsetLeasing, offsetWithoutLeasing;
 	@FXML
 	private ProgressBar businessPlanGeneralPB, businessPlanLeasingPB, businessPlanWithoutLeasingPB;
 	@FXML
 	private TableView<Category> mainTableView;
 	@FXML
-	private TableColumn<Category, String> categoryCol;
-	@FXML
-	private TableColumn<Category, String> unitsCol, countCol, costCol, costWithTaxCol;
-	@FXML
-	private TableColumn<Category, String> countPlanCol, costPlanCol, costWithTaxPlanCol;
-	@FXML
-	private TableColumn<Category, String> countRemainsCol, costRemainsCol, costWithTaxRemainsCol;
-	@FXML
-	private TableColumn<Category, String> percentCol;
+	private TableColumn<Category, String> categoryCol,
+	unitsCol, countCol, costCol, costWithTaxCol,
+	countPlanCol, costPlanCol, costWithTaxPlanCol,
+	countRemainsCol, costRemainsCol, costWithTaxRemainsCol,
+	percentCol;
+
+	private List<Ordering> orderingStorage;
+	private Comparison comparison;
 
 	@FXML
 	private void initialize() {
 		mainTableView.getItems().clear();
 
-		if (categoryService.findAll().size() != 0) {
-			mainTableView.getItems().addAll(categoryService.findAll());
+		initMainTable();
+		initYearComboBox();
+		initPeriodComboBox();
+		initComparison();
+
+		settingListenerForElements();
+	}
+
+	@FXML
+	void unloadingToExcel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+		try {
+			File resultsFolder = directoryChooser.showDialog(year.getScene().getWindow());
+
+			unloadMainTableToExcel(year, period, businessPlanGeneral, businessPlanLeasing, businessPlanWithoutLeasing,
+					businessPlanGeneralPercent, businessPlanLeasingPercent, businessPlanWithoutLeasingPercent,
+					factGeneral, factLeasing, factWithoutLeasing,
+					remainsGeneral, remainsLeasing, remainsWithoutLeasing,
+					offsetGeneral, offsetLeasing, offsetWithoutLeasing,
+					mainTableView, categoryCol, unitsCol, countCol, costCol,
+					costWithTaxCol, countPlanCol, costPlanCol, costWithTaxPlanCol, countRemainsCol, costRemainsCol,
+					costWithTaxRemainsCol, percentCol, resultsFolder.toString());
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
 		}
-		year.getItems().addAll(CurrentData.YEARS);
-		year.getSelectionModel().select(String.valueOf(CurrentData.CURRENT_YEAR));
-		period.getItems().addAll(Constants.PERIOD);
-		period.getSelectionModel().selectFirst();
+	}
 
-
-		year.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-			CurrentData.CURRENT_YEAR = Integer.parseInt(newValue);
-			reload();
-			mainTableView.refresh();
-		});
-		period.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-			reload();
-			mainTableView.refresh();
-		});
-
+	private void initComparison() {
 		try {
 			comparison = comparisonService.searchById(year.getValue());
 		} catch (NoSuchElementException e) {
@@ -110,6 +110,47 @@ public class MainController {
 			settingMainTableView();
 			settingsLabelsAndProgressBars();
 		}
+	}
+
+	private void initPeriodComboBox() {
+		period.getItems().addAll(Constants.PERIOD);
+		period.getSelectionModel().selectFirst();
+	}
+
+	private void initYearComboBox() {
+		year.getItems().addAll(CurrentData.YEARS);
+		year.getSelectionModel().select(String.valueOf(CurrentData.CURRENT_YEAR));
+	}
+
+	private void initMainTable() {
+		if (categoryService.findAll().size() != 0) {
+			mainTableView.getItems().addAll(categoryService.findAll());
+		}
+	}
+
+	private void reload() {
+		LocalDate dateStart = getDateStartOrEndPeriod(1, LocalDate.MIN);
+		LocalDate dateEnd = getDateStartOrEndPeriod(12, LocalDate.MAX);
+		this.orderingStorage = orderingService.findByYear(dateStart, dateEnd);
+		this.orderingStorage = getPeriodFilterList(this.orderingStorage);
+		try {
+			comparison = comparisonService.searchById(year.getValue());
+		} catch (NoSuchElementException e) {
+			Dialog.DialogBuilder.builder().title(ERROR).message(NO_CHOOSE_VERSION_BP_FOR_CURRENT_YEAR).build().show();
+		}
+		settingsLabelsAndProgressBars();
+	}
+
+	private void settingListenerForElements() {
+		year.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			CurrentData.CURRENT_YEAR = Integer.parseInt(newValue);
+			reload();
+			mainTableView.refresh();
+		});
+		period.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			reload();
+			mainTableView.refresh();
+		});
 	}
 
 	private void settingsLabelsAndProgressBars() {
@@ -142,7 +183,6 @@ public class MainController {
 		offsetWithoutLeasing.setText(formatNumber(parseNumber(businessPlanWithoutLeasing.getText())
 				.subtract(parseNumber(factWithoutLeasing.getText()))
 				.subtract(parseNumber(remainsWithoutLeasing.getText()))));
-
 	}
 
 	private void settingMainTableView() {
@@ -183,6 +223,7 @@ public class MainController {
 		TableviewElementUtils.setContextMenuForTable(mainTableView);
 	}
 
+
 	@SafeVarargs
 	private void settingComparatorForTableColumn(TableColumn<Category, String>... columns) {
 		for (TableColumn<Category, String> categoryStringTableColumn : columns) {
@@ -196,40 +237,6 @@ public class MainController {
 			categoryStringTableColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
 		}
 	}
-
-	@FXML
-	void unloadingToExcel() {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
-		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-		try {
-			File resultsFolder = directoryChooser.showDialog(year.getScene().getWindow());
-
-			unloadMainTableToExcel(year, period, businessPlanGeneral, businessPlanLeasing, businessPlanWithoutLeasing, businessPlanGeneralPercent,
-					businessPlanLeasingPercent, businessPlanWithoutLeasingPercent,
-					factGeneral, factLeasing, factWithoutLeasing,
-					remainsGeneral, remainsLeasing, remainsWithoutLeasing,
-					offsetGeneral, offsetLeasing, offsetWithoutLeasing,
-					mainTableView, categoryCol, unitsCol, countCol, costCol,
-					costWithTaxCol, countPlanCol, costPlanCol, costWithTaxPlanCol, countRemainsCol, costRemainsCol, costWithTaxRemainsCol, percentCol, resultsFolder.toString());
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
-		}
-	}
-
-	private void reload() {
-		LocalDate dateStart = getDateStartOrEndPeriod(1, LocalDate.MIN);
-		LocalDate dateEnd = getDateStartOrEndPeriod(12, LocalDate.MAX);
-		this.orderingStorage = orderingService.findByYear(dateStart, dateEnd);
-		this.orderingStorage = getPeriodFilterList(this.orderingStorage);
-		try {
-			comparison = comparisonService.searchById(year.getValue());
-		} catch (NoSuchElementException e) {
-			Dialog.DialogBuilder.builder().title(ERROR).message(NO_CHOOSE_VERSION_BP_FOR_CURRENT_YEAR).build().show();
-		}
-		settingsLabelsAndProgressBars();
-	}
-
 
 	private List<Ordering> getPeriodFilterList(List<Ordering> currentList) {
 		return switch (period.getSelectionModel().getSelectedItem()) {

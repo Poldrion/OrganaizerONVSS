@@ -21,12 +21,10 @@ import static organizer.utils.Constants.*;
 
 @Controller
 public class MainFrameController {
-
     @FXML
     private VBox sideBar;
     @FXML
     private StackPane contentView;
-
 
     @FXML
     private void initialize() {
@@ -85,7 +83,5 @@ public class MainFrameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 }

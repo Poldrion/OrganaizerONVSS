@@ -43,6 +43,12 @@ public class ExcelUtils {
 	public static final String TEMP_NOMENCLATURE_TEMPLATE = "templates/temp_nomenclature_template.xlsx";
 	public static final String BP_TEMPLATE = "templates/bp_template.xlsx";
 	public static final String TEMP_BP_TEMPLATE = "templates/temp_bp_template.xlsx";
+	public static final String DETAIL_ANALYTICS_TEMPLATE = "templates/detail_analytics_template.xlsx";
+	public static final String TEMP_DETAIL_ANALYTICS_TEMPLATE = "templates/temp_detail_analytics_template.xlsx";
+	public static final String SUM_ANALYTICS_TEMPLATE = "templates/sum_analytics_template.xlsx";
+	public static final String TEMP_SUM_ANALYTICS_TEMPLATE = "templates/temp_sum_analytics_template.xlsx";
+	public static final String ORDERING_RESULTS_TEMPLATE = "templates/ordering_results_template.xlsx";
+	public static final String TEMP_ORDERING_RESULTS_TEMPLATE = "templates/temp_ordering_results_template.xlsx";
 
 
 	private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(PATTERN_FOR_SHORT_DATE);
@@ -222,6 +228,165 @@ public class ExcelUtils {
 		}
 	}
 
+	public static void unloadSumAnalyticsTableToExcel(ComboBox<String> year, ComboBox<String> period, CheckBox withTaxSum,
+													  TableView<Category> table, String resultsFolder) {
+		try {
+			File tempFile = getTempFile(TEMP_SUM_ANALYTICS_TEMPLATE, SUM_ANALYTICS_TEMPLATE);
+
+			OPCPackage pkg = OPCPackage.open(tempFile);
+			XSSFWorkbook wb = new XSSFWorkbook(pkg);
+			Sheet sheet = wb.getSheet(NAME_SHEET_FOR_FILE_TEMPLATE);
+
+			CellStyle styleBorderAllAround = getStyleBorderAllAround(wb);
+			CellStyle styleBorderAllAroundNumber = getStyleBorderAllAroundAndNumberFormat(wb, PATTERN_FOR_NUMBERS);
+
+			// Год
+			Row row = sheet.getRow(0);
+			row.createCell(2).setCellValue(year.getSelectionModel().getSelectedItem());
+			// Период
+			row = sheet.getRow(1);
+			row.createCell(2).setCellValue(period.getSelectionModel().getSelectedItem());
+
+
+			// С НДС или без НДС
+			row = sheet.createRow(6);
+			if (withTaxSum.isSelected()) {
+				for (int i : new int[]{4, 6, 8}) {
+					row.createCell(i).setCellValue(WITH_TAX);
+				}
+			} else {
+				for (int i : new int[]{4, 6, 8}) {
+					row.createCell(i).setCellValue(WITHOUT_TAX);
+				}
+			}
+
+			// Основаная таблица
+			for (int i = 0; i < table.getItems().size(); i++) {
+				row = sheet.createRow(8 + i);
+				Cell cell;
+				for (int j = 0; j < table.getColumns().size(); j++) {
+					if (table.getColumns().get(j).getCellData(i) != null) {
+						switch (j) {
+							case 0, 1:
+								cell = row.createCell(j + 1);
+								cell.setCellStyle(styleBorderAllAround);
+								cell.setCellValue(table.getColumns().get(j).getCellData(i).toString());
+								break;
+							case 2, 3, 4, 5, 6, 7:
+								cell = row.createCell(j + 1);
+								cell.setCellStyle(styleBorderAllAroundNumber);
+								cell.setCellValue(FormatUtils.parseNumber(table.getColumns().get(j).getCellData(i).toString()).doubleValue());
+								break;
+						}
+					} else {
+						cell = row.createCell(j + 1);
+						cell.setCellStyle(styleBorderAllAround);
+						cell.setCellValue("");
+					}
+				}
+			}
+			saveFile(resultsFolder, FILENAME_FOR_UNLOAD_SUM_ANALYTICS, Integer.parseInt(year.getSelectionModel().getSelectedItem()), wb, tempFile);
+		} catch (IOException | InvalidFormatException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	public static void unloadDetailAnalyticsTableToExcel(ComboBox<String> year, ComboBox<String> period,
+														 ComboBox<String> category, CheckBox emptyCategory,
+														 CheckBox onlyCreatedOrdering, CheckBox onlyUncreatedOrdering,
+														 CheckBox withTax, RadioButton allEquipment, RadioButton onlyLeasing,
+														 RadioButton withoutLeasing, TableView<Ordering> table,
+														 String resultsFolder) {
+		try {
+			File tempFile = getTempFile(TEMP_DETAIL_ANALYTICS_TEMPLATE, DETAIL_ANALYTICS_TEMPLATE);
+
+			OPCPackage pkg = OPCPackage.open(tempFile);
+			XSSFWorkbook wb = new XSSFWorkbook(pkg);
+			Sheet sheet = wb.getSheet(NAME_SHEET_FOR_FILE_TEMPLATE);
+
+			CellStyle styleBorderAllAround = getStyleBorderAllAround(wb);
+			CellStyle styleBorderAllAroundNumber = getStyleBorderAllAroundAndNumberFormat(wb, PATTERN_FOR_NUMBERS);
+
+			// Год
+			Row row = sheet.getRow(0);
+			row.createCell(2).setCellValue(year.getSelectionModel().getSelectedItem());
+			// Период
+			row = sheet.getRow(1);
+			row.createCell(2).setCellValue(period.getSelectionModel().getSelectedItem());
+			// Категория
+			row = sheet.getRow(2);
+			row.createCell(2).setCellValue(category.getSelectionModel().getSelectedItem());
+			// Группа оборудования
+			row = sheet.getRow(3);
+			if (allEquipment.isSelected()) {
+				row.createCell(2).setCellValue(allEquipment.getText());
+			} else if (onlyLeasing.isSelected()) {
+				row.createCell(2).setCellValue(onlyLeasing.getText());
+			} else if (withoutLeasing.isSelected()) {
+				row.createCell(2).setCellValue(withoutLeasing.getText());
+			} else {
+				row.createCell(2).setCellValue(UNDEFINED_EQUIPMENT_GROUP);
+			}
+			// Отображение пустых заявок
+			row = sheet.getRow(4);
+			if (emptyCategory.isSelected()) {
+				row.createCell(2).setCellValue(YES);
+			} else {
+				row.createCell(2).setCellValue(NO);
+			}
+			// Отображение только фактически переданных заявок (с номерами заявок)
+			row = sheet.getRow(5);
+			if (onlyCreatedOrdering.isSelected()) {
+				row.createCell(2).setCellValue(ONLY_CREATED_ORDERINGS);
+			} else if (onlyUncreatedOrdering.isSelected()) {
+				row.createCell(2).setCellValue(ONLY_UNCREATED_ORDERINGS);
+			} else {
+				row.createCell(2).setCellValue(ALL_ORDERINGS);
+			}
+			// С НДС или без НДС
+			row = sheet.createRow(6);
+			if (withTax.isSelected()) {
+				for (int i : new int[]{8, 9, 11, 12, 14, 15}) {
+					row.createCell(i).setCellValue(WITH_TAX);
+				}
+			} else {
+				for (int i : new int[]{8, 9, 11, 12, 14, 15}) {
+					row.createCell(i).setCellValue(WITHOUT_TAX);
+				}
+			}
+
+			// Основаная таблица
+			for (int i = 0; i < table.getItems().size(); i++) {
+				row = sheet.createRow(8 + i);
+				Cell cell;
+				for (int j = 0; j < table.getColumns().size(); j++) {
+					if (table.getColumns().get(j).getCellData(i) != null) {
+						switch (j) {
+							case 0, 1, 2, 3, 4, 5, 15:
+								cell = row.createCell(j + 1);
+								cell.setCellStyle(styleBorderAllAround);
+								cell.setCellValue(table.getColumns().get(j).getCellData(i).toString());
+								break;
+							case 6, 7, 8, 9, 10, 11, 12, 13, 14:
+								cell = row.createCell(j + 1);
+								cell.setCellStyle(styleBorderAllAroundNumber);
+								cell.setCellValue(FormatUtils.parseNumber(table.getColumns().get(j).getCellData(i).toString()).doubleValue());
+								break;
+						}
+					} else {
+						cell = row.createCell(j + 1);
+						cell.setCellStyle(styleBorderAllAround);
+						cell.setCellValue("");
+					}
+				}
+			}
+			saveFile(resultsFolder, FILENAME_FOR_UNLOAD_DETAIL_ANALYTICS, Integer.parseInt(year.getSelectionModel().getSelectedItem()), wb, tempFile);
+		} catch (IOException | InvalidFormatException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * Метод для выгрузки всех категорий в файл шаблона xlsx для переноса в другую БД
 	 *
@@ -297,6 +462,52 @@ public class ExcelUtils {
 			Dialog.DialogBuilder.builder().title(WRONG_FORMAT).message(e.getMessage()).build().show();
 		}
 	}
+
+	public static void unloadOrderingResultsToExcel(List<OrderingResult> orderingResult, String resultsFolder) {
+		try {
+			File tempFile = getTempFile(TEMP_ORDERING_RESULTS_TEMPLATE, ORDERING_RESULTS_TEMPLATE);
+
+			OPCPackage pkg = OPCPackage.open(tempFile);
+			XSSFWorkbook wb = new XSSFWorkbook(pkg);
+			Sheet sheet = wb.getSheet(NAME_SHEET_FOR_FILE_TEMPLATE);
+
+			CellStyle styleBorderAllAround = getStyleBorderAllAround(wb);
+
+			Row row;
+			Cell cell;
+
+			for (int i = 0; i < orderingResult.size(); i++) {
+				row = sheet.createRow(8 + i);
+				cell = row.createCell(0);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getId());
+				cell = row.createCell(1);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getNumber());
+				cell = row.createCell(2);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getPosition());
+				cell = row.createCell(3);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getCount().doubleValue());
+				cell = row.createCell(4);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getPrice().doubleValue());
+				cell = row.createCell(5);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getCost().doubleValue());
+				cell = row.createCell(6);
+				cell.setCellStyle(styleBorderAllAround);
+				cell.setCellValue(orderingResult.get(i).getOrdering().getId());
+			}
+			saveFile(resultsFolder, FILENAME_FOR_UNLOAD_ORDERING_RESULTS, wb, tempFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InvalidFormatException e) {
+			Dialog.DialogBuilder.builder().title(WRONG_FORMAT).message(e.getMessage()).build().show();
+		}
+	}
+
 
 	/**
 	 * Метод для выгрузки всех подкатегорий  в файл шаблона xlsx для переноса в другую БД
@@ -664,9 +875,85 @@ public class ExcelUtils {
 		} catch (IOException | InvalidFormatException e) {
 			throw new RuntimeException(e);
 		}
-
-
 	}
+
+	public static void uploadOrderingResultsFromExcel(File file, OrderingResultService orderingResultService, OrderingService orderingService) {
+		try {
+			OPCPackage pkg = OPCPackage.open(file);
+			XSSFWorkbook wb = new XSSFWorkbook(pkg);
+			Sheet sheet = wb.getSheetAt(0);
+
+			int rowStart = 8;
+			int rowEnd = sheet.getLastRowNum();
+
+			for (int rowNum = rowStart; rowNum <= rowEnd; rowNum++) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) continue;
+
+				OrderingResult orderingResult;
+				if (getCellText(row.getCell(0)).equals("") || getCellText(row.getCell(0)) == null) {
+					orderingResult = new OrderingResult();
+				} else {
+					try {
+						orderingResult = orderingResultService.findById(Long.parseLong(getCellText(row.getCell(0)).split("\\.")[0]));
+					} catch (NoSuchElementException e) {
+						orderingResult = new OrderingResult();
+					}
+				}
+
+				Ordering ordering;
+				if (Double.parseDouble(getCellText(row.getCell(3))) == 0) {
+					continue;
+				} else {
+					ordering = orderingService.findByNumberAndPosition(getCellText(row.getCell(1)), getCellText(row.getCell(2)).split("\\.")[0]);
+				}
+				if (ordering == null) {
+					notFoundOrdering(rowNum, row);
+
+				} else {
+					orderingResult.setNumber(ordering.getNumber());
+					orderingResult.setPosition(ordering.getPosition());
+					orderingResult.setCount(BigDecimal.valueOf(Double.parseDouble(getCellText(row.getCell(3)))));
+					orderingResult.setPrice(BigDecimal.valueOf(Double.parseDouble(getCellText(row.getCell(4)))));
+					orderingResult.setCost(BigDecimal.valueOf(Double.parseDouble(getCellText(row.getCell(5)))));
+					orderingResult.setOrdering(ordering);
+
+					orderingResultService.save(orderingResult);
+				}
+			}
+			wb.close();
+
+			// Логирование ошибок загрузки
+			if (ERROR_SET.size() > 0) {
+				Path fileErrorPath = Path.of(FILENAME_FOR_ORDERING_RESULT_ERROR_LOG + LocalDate.now().format(dtf) + ".log");
+				File fileError;
+				if (!Files.exists(fileErrorPath)) {
+					fileError = Files.createFile(fileErrorPath).toFile();
+				} else {
+					fileError = new File(String.valueOf(fileErrorPath));
+				}
+				BufferedWriter bw = new BufferedWriter(new FileWriter(fileError));
+				for (String s : ERROR_SET) {
+					bw.write(s);
+				}
+				bw.close();
+
+				Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + fileErrorPath);
+
+
+				Dialog.DialogBuilder.builder().title(ERROR_UPLOADING_FILE).message(ERROR_UPLOADING_FILE_MESSAGE + ERROR_COUNT + ".").build().show();
+
+				ERROR_COUNT = 0;
+				ERROR_SET.clear();
+			}
+
+		} catch (InvalidFormatException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	/**
 	 * Метод для загрузки заявок из файла xlsx
@@ -761,7 +1048,6 @@ public class ExcelUtils {
 		} catch (InvalidFormatException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	/**
@@ -892,6 +1178,7 @@ public class ExcelUtils {
 			throw new RuntimeException(e);
 		}
 	}
+
 
 	public static void uploadCodeKSMFromExcel(File file, CodeKSMService codeKSMService) {
 		try {
@@ -1298,7 +1585,7 @@ public class ExcelUtils {
 	 * @param cell ячейка, из которой извлекаются данные
 	 * @return строковое предстваление данных из указанной ячейки
 	 */
-	private static String getCellText(@NotNull Cell cell) {
+	private static String getCellText(Cell cell) {
 		String result = "";
 		switch (cell.getCellType()) {
 			case STRING -> result = cell.getRichStringCellValue().getString();
@@ -1392,8 +1679,8 @@ public class ExcelUtils {
 										  @NotNull Subcategory subcategory, @NotNull XSSFWorkbook wb,
 										  File tempFile) throws IOException {
 		String resultFile = resultsFolder + x + year.getSelectionModel().getSelectedItem()
-				+ FILENAME_SUFFIX_ACCESSORY_FOR_TEMPLATE_SAP + subcategory.getName()
-				+ " " + LocalDate.now().format(dtf) + ".xlsx";
+							+ FILENAME_SUFFIX_ACCESSORY_FOR_TEMPLATE_SAP + subcategory.getName()
+							+ " " + LocalDate.now().format(dtf) + ".xlsx";
 
 		try (OutputStream fileOut = new FileOutputStream(resultFile)) {
 			wb.write(fileOut);
@@ -1440,7 +1727,15 @@ public class ExcelUtils {
 				getCellText(row.getCell(15)));
 		ERROR_COUNT++;
 		ERROR_SET.add(temp);
+	}
 
+	private static void notFoundOrdering(int rowNum, Row row) {
+		String temp = String.format(STRING_FORMAT_FOR_LOGGING_ERRORS_ORDERING_RESULT,
+				(rowNum + 1), getCellText(row.getCell(1)).split("\\.")[0],
+				getCellText(row.getCell(2)).split("\\.")[0]
+		);
+		ERROR_COUNT++;
+		ERROR_SET.add(temp);
 	}
 
 	private static CellStyle getStyleBorderAllAroundAndNumberFormat(@NotNull XSSFWorkbook wb, String format) {
@@ -1449,7 +1744,6 @@ public class ExcelUtils {
 		setAllAroundBorderStyle(styleBorderAllAroundPercent);
 		return styleBorderAllAroundPercent;
 	}
-
 
 
 	private static CellStyle getStyleBorderAllAround(@NotNull XSSFWorkbook wb) {
@@ -1465,13 +1759,13 @@ public class ExcelUtils {
 		return centerAlignment;
 	}
 
-	private static  CellStyle getStyleOnlyNumber(@NotNull XSSFWorkbook wb, String format) {
+	private static CellStyle getStyleOnlyNumber(@NotNull XSSFWorkbook wb, String format) {
 		CellStyle stylePercent = wb.createCellStyle();
 		stylePercent.setDataFormat(wb.createDataFormat().getFormat(format));
 		return stylePercent;
 	}
 
-	private static  CellStyle getStyleBorderAllAroundAndDateFormat(@NotNull XSSFWorkbook wb, String format) {
+	private static CellStyle getStyleBorderAllAroundAndDateFormat(@NotNull XSSFWorkbook wb, String format) {
 		CellStyle styleBorderAllAroundDate = wb.createCellStyle();
 		setAllAroundBorderStyle(styleBorderAllAroundDate);
 		CreationHelper createHelper = wb.getCreationHelper();
@@ -1498,4 +1792,6 @@ public class ExcelUtils {
 		cellStyle.setBorderTop(BorderStyle.THIN);
 		cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
 	}
+
+
 }

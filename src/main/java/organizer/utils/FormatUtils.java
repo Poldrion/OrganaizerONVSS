@@ -38,12 +38,11 @@ public class FormatUtils {
 
     }
 
-
     public static boolean isNumeric(String string) {
         // Checks if the provided string
         // is a numeric by applying a regular
         // expression on it.
-        String regex = "[0-9]+[\\.||\\,]?[0-9]*";
+        String regex = "^-?[0-9]+[\\.||\\,]?[0-9]*";
         return Pattern.matches(regex, string);
     }
 

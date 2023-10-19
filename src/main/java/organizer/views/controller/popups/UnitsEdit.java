@@ -17,11 +17,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class UnitsEdit {
-
     @FXML
-    private Label message;
-    @FXML
-    private Label title;
+    private Label title, message;
     @FXML
     private TextField name;
     @FXML
@@ -32,10 +29,7 @@ public class UnitsEdit {
 
     @FXML
     private void initialize() {
-
-
     }
-
 
     public static void openEditUnits(Consumer<Units> saveHandler, Supplier<List<Units>> supplierUnits) {
         try {
@@ -55,13 +49,11 @@ public class UnitsEdit {
         }
     }
 
-
     private void init(Consumer<Units> saveHandler, Supplier<List<Units>> supplierUnits) {
         this.saveHandler = saveHandler;
         this.supplierUnits = supplierUnits;
         unitsTableview.getItems().addAll(supplierUnits.get());
     }
-
 
     @FXML
     private void add() {
@@ -78,7 +70,6 @@ public class UnitsEdit {
             message.setText(e.getMessage());
         }
     }
-
 
     @FXML
     private void close() {

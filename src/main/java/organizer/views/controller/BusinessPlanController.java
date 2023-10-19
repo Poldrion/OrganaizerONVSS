@@ -33,7 +33,6 @@ import static organizer.utils.FormatUtils.formatNumber;
 
 @Controller
 public class BusinessPlanController {
-
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
@@ -43,14 +42,12 @@ public class BusinessPlanController {
 	private TableView<Category> businessPlanTableView;
 	@FXML
 	private TableColumn<Category, String> categoryCol, firstYearCostCol, firstYearCountCol, firstYearPriceCol, secondYearCostCol, secondYearCountCol, secondYearPriceCol, thirdYearCostCol, thirdYearCountCol, thirdYearPriceCol, forthYearCostCol, forthYearCountCol, forthYearPriceCol, fifthYearCostCol, fifthYearCountCol, fifthYearPriceCol;
-
 	@FXML
 	private Label titleFirstYear, titleSecondYear, titleThirdYear, titleForthYear, titleFifthYear;
 	@FXML
 	private Label firstYearBPTitle, secondYearBPTitle, thirdYearBPTitle, forthYearBPTitle, fifthYearBPTitle;
 	@FXML
 	private ComboBox<BusinessPlan> version;
-
 
 	@FXML
 	private void initialize() {
@@ -81,13 +78,6 @@ public class BusinessPlanController {
 		reload();
 	}
 
-	private void reload() {
-		settingsTitleTable();
-		settingsTable();
-		settingsBPTitles();
-		businessPlanTableView.refresh();
-	}
-
 	@FXML
 	private void edit() {
 		BusinessPlan businessPlan = version.getSelectionModel().getSelectedItem();
@@ -95,6 +85,41 @@ public class BusinessPlanController {
 			BusinessPlanEdit.editBPGeneral(businessPlan, this::saveBPGeneral, categoryService);
 		}
 		reload();
+	}
+
+	@FXML
+	private void unloadingToExcel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+
+		try {
+			File resultsFolder = directoryChooser.showDialog(businessPlanTableView.getScene().getWindow());
+			unloadBPToExcel(businessPlanService, resultsFolder.toString());
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+		}
+	}
+
+	@FXML
+	private void uploadBP() {
+		FileChooser fileChooser = getFileChooser(BP_UPLOAD_TITLE_SUFFIX);
+		try {
+			File file = fileChooser.showOpenDialog(version.getScene().getWindow());
+
+			ExcelUtils.uploadBPFromExcel(file, businessPlanService);
+			initialize();
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
+		}
+	}
+
+	private void reload() {
+		settingsTitleTable();
+		settingsTable();
+		settingsBPTitles();
+		businessPlanTableView.refresh();
 	}
 
 	private void settingsTable() {
@@ -218,28 +243,6 @@ public class BusinessPlanController {
 		}
 	}
 
-	private String getDataFromHashMap(Category category, HashMap<String, BigDecimal> map) {
-		BigDecimal result = map.get(category.getName());
-		return formatNumber(result);
-	}
-
-	private String getPriceFromDataHashMap(Category category, HashMap<String, BigDecimal> cost, HashMap<String, BigDecimal> count) {
-		try {
-			BigDecimal result = cost.get(category.getName()).divide(count.get(category.getName()), 2, RoundingMode.HALF_UP);
-			return formatNumber(result);
-		} catch (ArithmeticException | NullPointerException e) {
-			return formatNumber(BigDecimal.ZERO);
-		}
-	}
-
-	private void setBPTitle(Label title, HashMap<String, BigDecimal> cost) {
-		BigDecimal result = BigDecimal.ZERO;
-		for (BigDecimal element : cost.values()) {
-			result = result.add(element);
-		}
-		title.setText(formatNumber(result) + CURRENCY_WITH_TAX_SUFFIX);
-	}
-
 	private void settingsBPTitles() {
 		if (version.getValue() != null) {
 			setBPTitle(firstYearBPTitle, version.getValue().getFirstYearCost());
@@ -256,31 +259,25 @@ public class BusinessPlanController {
 		}
 	}
 
-	@FXML
-	private void unloadingToExcel() {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
-		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-
-		try {
-			File resultsFolder = directoryChooser.showDialog(businessPlanTableView.getScene().getWindow());
-			unloadBPToExcel(businessPlanService, resultsFolder.toString());
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+	private void setBPTitle(Label title, HashMap<String, BigDecimal> cost) {
+		BigDecimal result = BigDecimal.ZERO;
+		for (BigDecimal element : cost.values()) {
+			result = result.add(element);
 		}
+		title.setText(formatNumber(result) + CURRENCY_WITH_TAX_SUFFIX);
 	}
 
-	@FXML
-	private void uploadBP() {
-		FileChooser fileChooser = getFileChooser(BP_UPLOAD_TITLE_SUFFIX);
-		try {
-			File file = fileChooser.showOpenDialog(version.getScene().getWindow());
+	private String getDataFromHashMap(Category category, HashMap<String, BigDecimal> map) {
+		BigDecimal result = map.get(category.getName());
+		return formatNumber(result);
+	}
 
-			ExcelUtils.uploadBPFromExcel(file, businessPlanService);
-			initialize();
-			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
+	private String getPriceFromDataHashMap(Category category, HashMap<String, BigDecimal> cost, HashMap<String, BigDecimal> count) {
+		try {
+			BigDecimal result = cost.get(category.getName()).divide(count.get(category.getName()), 2, RoundingMode.HALF_UP);
+			return formatNumber(result);
+		} catch (ArithmeticException | NullPointerException e) {
+			return formatNumber(BigDecimal.ZERO);
 		}
 	}
 

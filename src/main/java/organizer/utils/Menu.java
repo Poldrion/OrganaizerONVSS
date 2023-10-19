@@ -8,6 +8,7 @@ public enum Menu {
     CategoryAndSubcategory("Categories and Subcategories"),
     Nomenclature("Nomenclature"),
     CodeKSM("Code KSM"),
+    Analytics("Analytics"),
     Settings("Settings window");
 
     private String title;

@@ -27,38 +27,21 @@ import static organizer.utils.ExcelUtils.*;
 
 @Controller
 public class CategoryAndSubcategoryController {
-
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
 	private SubcategoryService subcategoryService;
-
 
 	@FXML
 	private TableView<Category> categoryContainer;
 	@FXML
 	private TableView<Subcategory> subcategoryContainer;
 
-
 	@FXML
 	private void initialize() {
 		reload();
 
-		categoryContainer.setOnMouseClicked(event -> {
-			if (event.getClickCount() == 1) {
-				Category category = categoryContainer.getSelectionModel().getSelectedItem();
-				if (category != null) {
-					searchSubcategory();
-				}
-			}
-
-			if (event.getClickCount() == 2) {
-				Category category = categoryContainer.getSelectionModel().getSelectedItem();
-				if (category != null) {
-					CategoryEdit.editCategory(category, this::saveCategory);
-				}
-			}
-		});
+		settingListenerForElements();
 
 		categoryContainer.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
 		subcategoryContainer.setPlaceholder(new Label(ELEMENTS_NOT_FOUND));
@@ -99,26 +82,75 @@ public class CategoryAndSubcategoryController {
 		reload();
 	}
 
-	private void saveSubcategory(Subcategory subcategory) {
-		subcategoryService.save(subcategory);
-		reload();
-	}
-
-	private void saveCategory(Category category) {
-		categoryService.save(category);
-		reload();
-		try {
-			saveCategoryList();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	@FXML
 	private void editSubcategory() {
 		Subcategory subcategory = subcategoryContainer.getSelectionModel().getSelectedItem();
 		if (subcategory != null) {
 			SubcategoryEdit.edit(subcategory, this::saveSubcategory, categoryService::findAll);
+		}
+	}
+
+	@FXML
+	private void unloadingCategoryToExcel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+
+		try {
+			File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
+			unloadCategoryToExcel(categoryService, resultsFolder.toString());
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+		}
+	}
+
+	@FXML
+	private void unloadingSubcategoryToExcel() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+
+		try {
+			File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
+			unloadSubcategoryToExcel(subcategoryService, resultsFolder.toString());
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+		}
+	}
+
+	@FXML
+	private void editCategory() {
+		Category category = categoryContainer.getSelectionModel().getSelectedItem();
+		if (category != null) {
+			CategoryEdit.editCategory(category, this::saveCategory);
+		}
+	}
+
+	@FXML
+	private void uploadCategory() {
+		FileChooser fileChooser = getFileChooser(CATEGORIES_UPLOAD_TITLE_SUFFIX);
+		try {
+			File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
+
+			ExcelUtils.uploadCategoryFromExcel(file, categoryService);
+			reload();
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
+		}
+	}
+
+	@FXML
+	private void uploadSubcategory() {
+		FileChooser fileChooser = getFileChooser(SUBCATEGORIES_UPLOAD_TITLE_SUFFIX);
+
+		try {
+			File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
+			ExcelUtils.uploadSubcategoryFromExcel(file, subcategoryService, categoryService);
+			reload();
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
+		} catch (NullPointerException e) {
+			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
 		}
 	}
 
@@ -166,72 +198,37 @@ public class CategoryAndSubcategoryController {
 		writer.close();
 	}
 
-	@FXML
-	private void unloadingCategoryToExcel() {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
-		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-
-		try {
-			File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
-			unloadCategoryToExcel(categoryService, resultsFolder.toString());
-
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
-		}
-
+	private void saveSubcategory(Subcategory subcategory) {
+		subcategoryService.save(subcategory);
+		reload();
 	}
 
-	@FXML
-	private void unloadingSubcategoryToExcel() {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle(CHOOSE_PLACE_FOR_SAVE_FILE);
-		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-
+	private void saveCategory(Category category) {
+		categoryService.save(category);
+		reload();
 		try {
-			File resultsFolder = directoryChooser.showDialog(categoryContainer.getScene().getWindow());
-			unloadSubcategoryToExcel(subcategoryService, resultsFolder.toString());
-
-
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(UNLOADING_OPERATION_ABORTED).message(CHOOSE_FOLDER_FOR_SAVE_FILE_NOT_SELECTED).build().show();
+			saveCategoryList();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	@FXML
-	private void editCategory() {
-		Category category = categoryContainer.getSelectionModel().getSelectedItem();
-		if (category != null) {
-			CategoryEdit.editCategory(category, this::saveCategory);
-		}
-	}
+	private void settingListenerForElements() {
+		categoryContainer.setOnMouseClicked(event -> {
+			if (event.getClickCount() == 1) {
+				Category category = categoryContainer.getSelectionModel().getSelectedItem();
+				if (category != null) {
+					searchSubcategory();
+				}
+			}
 
-	@FXML
-	private void uploadCategory() {
-		FileChooser fileChooser = getFileChooser(CATEGORIES_UPLOAD_TITLE_SUFFIX);
-		try {
-			File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
-
-			ExcelUtils.uploadCategoryFromExcel(file, categoryService);
-			reload();
-			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
-		}
-	}
-
-	@FXML
-	private void uploadSubcategory() {
-		FileChooser fileChooser = getFileChooser(SUBCATEGORIES_UPLOAD_TITLE_SUFFIX);
-
-		try {
-			File file = fileChooser.showOpenDialog(categoryContainer.getScene().getWindow());
-			ExcelUtils.uploadSubcategoryFromExcel(file, subcategoryService, categoryService);
-			reload();
-			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_COMPLETED).message(DATA_DOWNLOAD_COMPLETED_SUCCESSFULLY).build().show();
-		} catch (NullPointerException e) {
-			Dialog.DialogBuilder.builder().title(DOWNLOAD_OPERATION_ABORTED).message(FILE_FOR_DOWNLOAD_NOT_SELECTED).build().show();
-		}
+			if (event.getClickCount() == 2) {
+				Category category = categoryContainer.getSelectionModel().getSelectedItem();
+				if (category != null) {
+					CategoryEdit.editCategory(category, this::saveCategory);
+				}
+			}
+		});
 	}
 
 }

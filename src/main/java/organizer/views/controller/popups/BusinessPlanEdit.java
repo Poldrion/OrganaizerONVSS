@@ -40,6 +40,27 @@ public class BusinessPlanEdit {
 	private Consumer<BusinessPlan> saveHandler;
 	private BusinessPlan businessPlan;
 
+	@FXML
+	private void save() {
+		try {
+			businessPlan.setId(id.getText());
+			businessPlan.setFirstYear(Integer.parseInt(firstYear.getText()));
+
+			saveHandler.accept(businessPlan);
+			close();
+			Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_BP_COMPLETED_SUCCESSFULLY).build().show();
+		} catch (OrganizerException e) {
+			message.setText(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void close() {
+		title.getScene().getWindow().hide();
+	}
+
 	public static void addNewBPGeneral(Consumer<BusinessPlan> saveHandler, CategoryService categoryService) {
 		editBPGeneral(null, saveHandler, categoryService);
 	}
@@ -197,34 +218,10 @@ public class BusinessPlanEdit {
 						.put(t.getTableView().getItems().get(t.getTablePosition().getRow()).getName(), parseNumber(t.getNewValue())));
 	}
 
-
 	@SafeVarargs
 	private void setEditableCellForTableColumn(TableColumn<?, String>... columns) {
 		for (TableColumn<?, String> column : columns) {
 			column.setCellFactory(TextFieldTableCell.forTableColumn());
 		}
 	}
-
-
-	@FXML
-	private void save() {
-		try {
-			businessPlan.setId(id.getText());
-			businessPlan.setFirstYear(Integer.parseInt(firstYear.getText()));
-
-			saveHandler.accept(businessPlan);
-			close();
-			Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_BP_COMPLETED_SUCCESSFULLY).build().show();
-		} catch (OrganizerException e) {
-			message.setText(e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	private void close() {
-		title.getScene().getWindow().hide();
-	}
-
 }

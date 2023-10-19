@@ -16,19 +16,34 @@ import java.util.function.Consumer;
 import static organizer.utils.Constants.*;
 
 public class CodeKSMEdit {
-
     @FXML
-    private TextField id;
+    private TextField id, name;
     @FXML
-    private TextField name;
-    @FXML
-    private Label message;
-    @FXML
-    private Label title;
+    private Label message, title;
 
     private CodeKSM codeKSM;
     private Consumer<CodeKSM> saveHandler;
 
+    @FXML
+    private void save() {
+        try {
+            codeKSM.setId(id.getText());
+            codeKSM.setName(name.getText());
+
+            saveHandler.accept(codeKSM);
+            close();
+            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_CODE_KSM_COMPLETED_SUCCESSFULLY).build().show();
+        } catch (OrganizerException e) {
+            message.setText(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void close() {
+        name.getScene().getWindow().hide();
+    }
 
     public static void addNewCodeKSM(Consumer<CodeKSM> saveHandler) {
         edit(null, saveHandler);
@@ -51,36 +66,11 @@ public class CodeKSMEdit {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    }
-
-    @FXML
-    private void save() {
-        try {
-            codeKSM.setId(id.getText());
-            codeKSM.setName(name.getText());
-
-            saveHandler.accept(codeKSM);
-            close();
-            Dialog.DialogBuilder.builder().title(COMPLETED_SUCCESSFULLY).message(ADD_OR_EDIT_CODE_KSM_COMPLETED_SUCCESSFULLY).build().show();
-        } catch (OrganizerException e) {
-            message.setText(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    private void close() {
-        name.getScene().getWindow().hide();
     }
 
     private void init(CodeKSM codeKSM, Consumer<CodeKSM> saveHandler) {
-
         this.codeKSM = codeKSM;
         this.saveHandler = saveHandler;
-
 
         if (codeKSM == null) {
             title.setText(ADD_NEW_CODE_KSM);

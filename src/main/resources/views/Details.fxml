@@ -218,9 +218,9 @@
                                     <Insets left="2.0" right="2.0" />
                                  </opaqueInsets>
                                  <children>
-                                    <TextField fx:id="presummCount" alignment="CENTER" GridPane.columnIndex="6" />
-                                    <TextField fx:id="presummCostWithoutTax" alignment="CENTER" GridPane.columnIndex="9" />
-                                    <TextField fx:id="presummCostWithTax" alignment="CENTER" GridPane.columnIndex="10" />
+                                    <TextField fx:id="preSumCount" alignment="CENTER" GridPane.columnIndex="6" />
+                                    <TextField fx:id="preSumCostWithoutTax" alignment="CENTER" GridPane.columnIndex="9" />
+                                    <TextField fx:id="preSumCostWithTax" alignment="CENTER" GridPane.columnIndex="10" />
                                  </children>
                               </GridPane>
                            </children>
