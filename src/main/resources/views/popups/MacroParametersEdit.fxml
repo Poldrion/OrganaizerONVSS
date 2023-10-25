@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<HBox styleClass="dialog" stylesheets="@../../style/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="organizer.views.controller.popups.MacroParametersEdit">
+   <children>
+      <VBox styleClass="dialog-ordering-edit-icon" HBox.hgrow="ALWAYS">
+         <children>
+            <SVGPath content="M27 0h-24c-1.65 0-3 1.35-3 3v26c0 1.65 1.35 3 3 3h24c1.65 0 3-1.35 3-3v-26c0-1.65-1.35-3-3-3zM26 28h-22v-24h22v24zM8 14h14v2h-14zM8 18h14v2h-14zM8 22h14v2h-14zM8 10h14v2h-14z" scaleX="1.5" scaleY="1.5" />
+         </children>
+      </VBox>
+      <VBox HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="title" styleClass="dialog-ordering-edit-title" text="Изменение макропараметров" wrapText="true" />
+            <VBox styleClass="dialog-ordering-edit-message-box" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="message" />
+                  <HBox styleClass="sp-10" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox styleClass="dialog-ordering-edit-input-box" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox styleClass="dialog-ordering-edit-input-box" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Тип макропараметра" />
+                                          <ComboBox fx:id="typeMacroParameters" prefWidth="150.0" promptText="Выбрать тип макропараметра" />
+                                       </children>
+                                    </VBox>
+                                    <VBox>
+                                       <children>
+                                          <Label text="Первый год макропараметра" />
+                                          <TextField fx:id="firstYearMacroParameters" promptText="Введите первый год макропараметра" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Значение первого года" />
+                                          <TextField fx:id="firstYearValueTF" promptText="Введите значение" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Значение второго года" />
+                                          <TextField fx:id="secondYearValueTF" promptText="Введите значение" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Значение третьего года" />
+                                          <TextField fx:id="thirdYearValueTF" promptText="Введите значение" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Значение четвертого года" />
+                                          <TextField fx:id="forthYearValueTF" promptText="Введите значение" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="328.0" styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Значение пятого года" />
+                                          <TextField fx:id="fifthYearValueTF" promptText="Введите значение" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="dialog-ordering-edit-input-box">
+                                       <children>
+                                          <Label text="Дата доведения макропараметров" />
+                                          <DatePicker fx:id="date" maxWidth="1.7976931348623157E308" promptText="Выберите плановую дату поставки" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#save" styleClass="width-120" text="Сохранить" />
+                  <Button layoutX="290.0" layoutY="10.0" mnemonicParsing="false" onAction="#close" styleClass="width-120" text="Закрыть" />
+               </children>
+               <styleClass>
+                  <String fx:value="dialog-button-box" />
+                  <String fx:value="sp-10" />
+                  <String fx:value="padding-all-5" />
+               </styleClass>
+            </HBox>
+         </children>
+         <styleClass>
+            <String fx:value="dialog-ordering-edit-body" />
+            <String fx:value="padding-all-5" />
+         </styleClass>
+      </VBox>
+   </children>
+</HBox>
