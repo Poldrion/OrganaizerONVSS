@@ -5,13 +5,9 @@ import org.springframework.stereotype.Service;
 import organizer.model.entities.Ordering;
 import organizer.model.entities.OrderingResult;
 import organizer.model.repositories.OrderingResultRepository;
-import organizer.views.controller.common.Dialog;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static organizer.utils.Constants.COMPLETED_SUCCESSFULLY;
-import static organizer.utils.Constants.REMOVE_ORDERING;
 
 @Service
 public class OrderingResultService {

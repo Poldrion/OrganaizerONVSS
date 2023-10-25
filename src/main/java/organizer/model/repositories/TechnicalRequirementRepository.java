@@ -14,4 +14,9 @@ public interface TechnicalRequirementRepository extends BaseRepository<Technical
     @Transactional
     @Query(value = "BACKUP TO ?1", nativeQuery = true)
     int backupDB(String path);
+
+    @Query("select t from TechnicalRequirement t where t.name = ?1")
+    TechnicalRequirement findByName(String name);
+
+
 }
